@@ -18,6 +18,8 @@
   .header-row { display:flex; align-items:center; justify-content:space-between; }
   .header-icons { display:flex; align-items:center; gap:2px; }
   .header-icons button { background:none; border:none; color:rgba(240,240,245,0.45); font-size:16px; cursor:pointer; padding:6px 8px; }
+  @keyframes spin360 { from{transform:rotate(0)} to{transform:rotate(360deg)} }
+  #refresh-btn.spinning { color:#7eb8d4; animation:spin360 1s linear infinite; display:inline-block; }
   #logo { font-weight:800; font-size:20px; letter-spacing:-0.5px; flex-shrink:0; }
   #logo span { color:#7eb8d4; }
   #settings-btn { background:none; border:none; color:rgba(240,240,245,0.45); font-size:16px; cursor:pointer; padding:6px 8px; }
@@ -319,6 +321,8 @@ function setQuizOpts() {
   // count not applicable for list quizzes
   document.getElementById("quiz-count").style.display = quizOpts.type === "list" ? "none" : "";
   try { localStorage.setItem("know_quizopts", JSON.stringify(quizOpts)); } catch {}
+  // settings changed -> old pre-generated batch may not match anymore; rebuild it
+  if (quizBufferKey !== currentQuizKey()) { quizBuffer = []; quizBufferKey = ""; setTimeout(fillQuizBuffer, 400); }
 }
 function syncQuizBar() {
   document.getElementById("quiz-type").value = quizOpts.type;
@@ -614,6 +618,7 @@ function buildFeed() {
     feed.appendChild(makeEndCard());
     observePrefetchTarget();
     if (!quizzes.length) loadMore();
+    else setTimeout(fillQuizBuffer, 200);
     return;
   }
 
@@ -868,29 +873,244 @@ function maybePrefetch() {
   if (visibleCards().length < 4) loadMore();
 }
 
+// Random niche prompts against repetitive AI topic choices
+const NICHE_POOL = [
+  "vergessene Erfindungen", "Tiefsee", "antike Alltagskultur", "Sprachgeschichte und Etymologie",
+  "Mikrobiologie", "Wirtschaftsgeschichte", "Astronomie-Raetsel", "Architektur und Bauwerke",
+  "Kartographie und Entdeckungen", "Musiktheorie und Klang", "Materialwissenschaft", "Schlaf und Traeume",
+  "Insekten und Spinnen", "Wetterphaenomene", "Mathematik im Alltag", "Pflanzenintelligenz",
+  "Kryptographie", "mittelalterliches Leben", "Olympia-Geschichte", "Inseln und Mikrostaaten",
+  "Gehirn-Kuriositaeten", "Handelsrouten", "Vulkane und Plattentektonik", "beruehmte Irrtuemer der Wissenschaft"
+];
+function randomNiches(n) {
+  const pool = [...NICHE_POOL];
+  const out = [];
+  for (let i = 0; i < n && pool.length; i++) out.push(pool.splice(Math.floor(Math.random() * pool.length), 1)[0]);
+  return out;
+}
+
+let pendingRefresh = false;
+
+// ---- Quiz buffer: next batch pre-generated for current settings ----
+let quizBuffer = [];
+let quizBufferKey = "";
+let quizBufferFilling = false;
+
+function currentQuizKey() {
+  return JSON.stringify([quizOpts.type, quizOpts.cat, quizOpts.diff, quizOpts.count, quizOpts.topic]);
+}
+
+async function fillQuizBuffer() {
+  if (quizBufferFilling || !workerUrl || !apiKey) return;
+  const key = currentQuizKey();
+  if (quizBufferKey === key && quizBuffer.length > 0) return;
+  quizBufferFilling = true;
+  try {
+    const fresh = await generateQuizBatch();
+    // Only keep if settings haven't changed meanwhile
+    if (currentQuizKey() === key) {
+      quizBuffer = fresh;
+      quizBufferKey = key;
+    }
+  } catch (e) { /* silent */ }
+  quizBufferFilling = false;
+}
+
 function refreshFeed() {
-  if (generating) return;
   if (filter === "__saved") { showToast("In der Merkliste gibt es nichts zu aktualisieren"); return; }
-  if (filter === "Quiz") return generateNow();
   const btn = document.getElementById("refresh-btn");
-  btn.style.color = "#7eb8d4";
-  loadMore(true).finally(() => { btn.style.color = ""; });
+  btn.classList.add("spinning");
+  if (generating) {
+    // Queue it: runs automatically right after the current generation finishes
+    pendingRefresh = true;
+    showToast("Neue Themen kommen gleich...");
+    return;
+  }
+  if (filter === "Quiz") {
+    generateNow();
+    return;
+  }
+  loadMore(true);
+}
+
+function finishGeneration() {
+  generating = false;
+  updateEndCard();
+  const goBtn = document.getElementById("quiz-go");
+  if (goBtn) { goBtn.disabled = false; goBtn.textContent = "Los"; }
+  if (pendingRefresh) {
+    pendingRefresh = false;
+    if (filter === "Quiz") { generateNow(); return; }
+    if (filter !== "__saved") { loadMore(true); return; }
+  }
+  const rbtn = document.getElementById("refresh-btn");
+  if (rbtn) rbtn.classList.remove("spinning");
+}
+
+// ---- Core generation (no UI side effects) ----
+async function generateFeedCards(count, cats) {
+  const seen = [...seenTitles].slice(-30).join("; ");
+  const niches = randomNiches(3).join(", ");
+  const prompt = `Generiere genau ${count} voellig neue, faszinierende Wissens-Themen auf Deutsch fuer eine Lern-App.
+Erlaubte Kategorien: ${cats.join(", ")}
+Vermeide naheliegende Standard-Themen — lass dich von diesen Nischen inspirieren: ${niches}.
+Diese Themen wurden bereits gezeigt und sind VERBOTEN: ${seen}
+
+Antworte AUSSCHLIESSLICH mit einem JSON-Array, ohne Markdown, ohne Text drumherum:
+[{"cat":"Geschichte","title":"Kurzer Titel","fact":"Zwei bis drei packende Saetze.","quickQ":["Frage 1?","Frage 2?","Frage 3?"]}]
+
+Regeln:
+- cat exakt eine aus: ${cats.join(", ")}
+- fact: 2 bis 3 lehrreiche, ueberraschende Saetze auf Deutsch
+- quickQ: genau 3 kurze Fragen`;
+
+  const raw = await callAI(prompt, 1600);
+  const s = raw.indexOf("["), e = raw.lastIndexOf("]");
+  if (s === -1 || e <= s) throw new Error("Kein JSON in Antwort");
+  const parsed = JSON.parse(raw.slice(s, e + 1));
+  return (Array.isArray(parsed) ? parsed : [])
+    .filter(c => c && c.title && c.cat && c.fact && !seenTitles.has(c.title))
+    .map(c => {
+      seenTitles.add(c.title);
+      return {
+        cat: CAT_COLORS[c.cat] ? c.cat : "Allgemein",
+        emoji: pickEmoji(c.cat),
+        title: c.title,
+        fact: c.fact,
+        quickQ: Array.isArray(c.quickQ) && c.quickQ.length ? c.quickQ.slice(0,3) : ["Erzähl mir mehr!","Warum ist das so?","Gibt es Beispiele?"]
+      };
+    });
+}
+
+// ---- Background buffer: cards ready before you need them ----
+let cardBuffer = [];
+let bufferFilling = false;
+const BUFFER_TARGET = 12;
+
+async function fillBuffer() {
+  if (bufferFilling || cardBuffer.length >= BUFFER_TARGET) return;
+  if (!workerUrl || !apiKey) return;
+  bufferFilling = true;
+  try {
+    // Empty or low buffer: two parallel generations; otherwise one
+    const jobs = cardBuffer.length < 4
+      ? [generateFeedCards(4, ALL_CATS), generateFeedCards(4, ALL_CATS)]
+      : [generateFeedCards(4, ALL_CATS)];
+    const results = await Promise.all(jobs.map(p => p.catch(() => [])));
+    results.forEach(fresh => { cardBuffer = cardBuffer.concat(fresh); });
+  } catch (e) { /* silent */ }
+  bufferFilling = false;
+  if (cardBuffer.length < BUFFER_TARGET) setTimeout(fillBuffer, 400);
+}
+
+function takeFromBuffer(n, cat) {
+  const out = [];
+  for (let i = cardBuffer.length - 1; i >= 0 && out.length < n; i--) {
+    if (cat === "Alle" || cardBuffer[i].cat === cat) out.push(cardBuffer.splice(i, 1)[0]);
+  }
+  setTimeout(fillBuffer, 100); // refill in background
+  return out;
 }
 
 async function loadMore(prepend) {
   if (generating) return;
-  if (!workerUrl || !apiKey) { openSetup(); return; }
-  if (filter === "__saved") return;
+  if (!workerUrl || !apiKey) { document.getElementById("refresh-btn").classList.remove("spinning"); openSetup(); return; }
+  if (filter === "__saved") { document.getElementById("refresh-btn").classList.remove("spinning"); return; }
+  if (filter === "Quiz") return loadMoreQuizzes(prepend);
+
+  // Instant path: serve from buffer
+  const buffered = takeFromBuffer(5, filter);
+  if (buffered.length >= 3) {
+    if (prepend) {
+      cards = buffered.concat(cards);
+      saveState();
+      buildFeed();
+      document.getElementById("feed").scrollTop = 0;
+      showToast(`✨ ${buffered.length} frische Themen`);
+    } else {
+      cards = cards.concat(buffered);
+      saveState();
+      appendCards(buffered);
+    }
+    finishGeneration();
+    return;
+  }
+  // put partial take back, do a live generation instead
+  cardBuffer = cardBuffer.concat(buffered);
+
+  generating = true;
+  updateEndCard();
+  try {
+    const targetCats = filter === "Alle" ? ALL_CATS : [filter];
+    const fresh = await generateFeedCards(5, targetCats);
+    if (fresh.length) {
+      if (prepend) {
+        cards = fresh.concat(cards);
+        saveState();
+        buildFeed();
+        document.getElementById("feed").scrollTop = 0;
+        showToast(`✨ ${fresh.length} frische Themen`);
+      } else {
+        cards = cards.concat(fresh);
+        saveState();
+        appendCards(fresh);
+      }
+    } else {
+      showToast("Keine neuen Themen erhalten");
+    }
+  } catch (e) {
+    showToast("Fehler: " + (e.message || e));
+  }
+  finishGeneration();
+}
+
+function refreshFeed() {
+  if (filter === "__saved") { showToast("In der Merkliste gibt es nichts zu aktualisieren"); return; }
+  const btn = document.getElementById("refresh-btn");
+  btn.classList.add("spinning");
+  if (generating) {
+    // Queue it: runs automatically right after the current generation finishes
+    pendingRefresh = true;
+    showToast("Neue Themen kommen gleich...");
+    return;
+  }
+  if (filter === "Quiz") {
+    generateNow();
+    return;
+  }
+  loadMore(true);
+}
+
+function finishGeneration() {
+  generating = false;
+  updateEndCard();
+  const goBtn = document.getElementById("quiz-go");
+  if (goBtn) { goBtn.disabled = false; goBtn.textContent = "Los"; }
+  if (pendingRefresh) {
+    pendingRefresh = false;
+    if (filter === "Quiz") { generateNow(); return; }
+    if (filter !== "__saved") { loadMore(true); return; }
+  }
+  const rbtn = document.getElementById("refresh-btn");
+  if (rbtn) rbtn.classList.remove("spinning");
+}
+
+async function loadMore(prepend) {
+  if (generating) return;
+  if (!workerUrl || !apiKey) { document.getElementById("refresh-btn").classList.remove("spinning"); openSetup(); return; }
+  if (filter === "__saved") { document.getElementById("refresh-btn").classList.remove("spinning"); return; }
   if (filter === "Quiz") return loadMoreQuizzes(prepend);
   generating = true;
   updateEndCard();
 
   const targetCats = filter === "Alle" ? ALL_CATS : [filter];
-  const seen = [...seenTitles].slice(-20).join("; ");
+  const seen = [...seenTitles].slice(-30).join("; ");
+  const niches = randomNiches(3).join(", ");
 
-  const prompt = `Generiere genau 5 neue faszinierende Wissens-Themen auf Deutsch fuer eine Lern-App.
+  const prompt = `Generiere genau 5 voellig neue, faszinierende Wissens-Themen auf Deutsch fuer eine Lern-App.
 Erlaubte Kategorien: ${targetCats.join(", ")}
-Diese Themen NICHT wiederholen: ${seen}
+Vermeide naheliegende Standard-Themen — lass dich von diesen Nischen inspirieren: ${niches}.
+Diese Themen wurden bereits gezeigt und sind VERBOTEN: ${seen}
 
 Antworte AUSSCHLIESSLICH mit einem JSON-Array, ohne Markdown, ohne Text drumherum:
 [{"cat":"Geschichte","title":"Kurzer Titel","fact":"Zwei bis drei packende Saetze.","quickQ":["Frage 1?","Frage 2?","Frage 3?"]}]
@@ -939,17 +1159,10 @@ Regeln:
     showToast("Fehler: " + (e.message || e));
   }
 
-  generating = false;
-  updateEndCard();
+  finishGeneration();
 }
 
-async function loadMoreQuizzes(prepend) {
-  if (generating) return;
-  generating = true;
-  updateEndCard();
-  const goBtn = document.getElementById("quiz-go");
-  if (goBtn) { goBtn.disabled = true; goBtn.textContent = "..."; }
-
+async function generateQuizBatch() {
   const seenQ = [...seenQuiz].slice(-20).join("; ");
   const catLine = quizOpts.topic
     ? `Alle Fragen zum Thema: "${quizOpts.topic}".`
@@ -959,8 +1172,9 @@ async function loadMoreQuizzes(prepend) {
   const diffLine = DIFF_TEXT[quizOpts.diff] || DIFF_TEXT.mittel;
   const mcCount = quizOpts.count || 5;
 
-  const prompt = quizOpts.type === "list"
-    ? `Generiere genau 3 Aufzaehl-Quizfragen auf Deutsch im Stil von JetPunk (z.B. "Nenne die 7 Kontinente").
+  let parsed = [];
+  if (quizOpts.type === "list") {
+    const prompt = `Generiere genau 3 Aufzaehl-Quizfragen auf Deutsch im Stil von JetPunk (z.B. "Nenne die 7 Kontinente").
 ${catLine}
 ${diffLine}
 Diese Fragen NICHT wiederholen: ${seenQ}
@@ -971,11 +1185,17 @@ Antworte AUSSCHLIESSLICH mit einem JSON-Array, ohne Markdown:
 Regeln:
 - answers: 4 bis 10 Eintraege; jeder Eintrag ist ein Array mit der Hauptantwort und gaengigen Schreibvarianten
 - Fragen muessen eindeutig und faktisch korrekt beantwortbar sein
-- q praezise formulieren (mit Anzahl, z.B. "Nenne die 7 ...")`
-    : `Generiere genau ${mcCount} Multiple-Choice-Quizfragen auf Deutsch im Stil von Allgemeinwissens-Quizzen (wie JetPunk): knapp und eindeutig.
+- q praezise formulieren (mit Anzahl, z.B. "Nenne die 7 ...")`;
+    const raw = await callAI(prompt, 2000);
+    const s0 = raw.indexOf("["), e0 = raw.lastIndexOf("]");
+    if (s0 === -1 || e0 <= s0) throw new Error("Kein JSON in Antwort");
+    parsed = JSON.parse(raw.slice(s0, e0 + 1));
+  } else {
+    const basePrompt = (batch, variant, extraNiche) => `Generiere genau ${batch} Multiple-Choice-Quizfragen auf Deutsch im Stil von Allgemeinwissens-Quizzen (wie JetPunk): knapp und eindeutig.
 ${catLine}
 ${diffLine}
 Diese Fragen NICHT wiederholen: ${seenQ}
+Zusatz-Inspiration fuer Vielfalt: ${extraNiche}. (Variante ${variant})
 
 Antworte AUSSCHLIESSLICH mit einem JSON-Array, ohne Markdown:
 [{"cat":"Geographie","q":"Welches ist das flaechengroesste Land der Erde?","options":["Kanada","Russland","China","USA"],"correct":1}]
@@ -986,52 +1206,60 @@ Regeln:
 - die Position der richtigen Antwort muss zufaellig variieren
 - q: kurze, praezise Frage auf Deutsch`;
 
-  try {
-    // Generate in chunks of max 10 — avoids iOS Safari fetch timeouts on large batches
-    let parsed = [];
-    if (quizOpts.type === "list") {
-      const raw = await callAI(prompt, 2000);
-      const s0 = raw.indexOf("["), e0 = raw.lastIndexOf("]");
-      if (s0 === -1 || e0 <= s0) throw new Error("Kein JSON in Antwort");
-      parsed = JSON.parse(raw.slice(s0, e0 + 1));
-    } else {
-      let remaining = mcCount;
-      while (remaining > 0) {
-        const batch = Math.min(remaining, 10);
-        const batchPrompt = prompt.replace(`genau ${mcCount} Multiple-Choice`, `genau ${batch} Multiple-Choice`);
-        const raw = await callAI(batchPrompt, Math.min(200 + batch * 110, 1500));
-        const s0 = raw.indexOf("["), e0 = raw.lastIndexOf("]");
-        if (s0 !== -1 && e0 > s0) {
-          try {
-            const part = JSON.parse(raw.slice(s0, e0 + 1));
-            if (Array.isArray(part)) {
-              parsed = parsed.concat(part);
-              // feed seen list so next chunk avoids duplicates within this run
-              part.forEach(x => { if (x && x.q) seenQuiz.add(x.q); });
-            }
-          } catch {}
-        }
-        remaining -= batch;
-      }
-      if (!parsed.length) throw new Error("Kein JSON in Antwort");
+    const batches = [];
+    let remaining = mcCount, variant = 0;
+    while (remaining > 0) {
+      const batch = Math.min(remaining, 10);
+      batches.push(callAI(basePrompt(batch, ++variant, randomNiches(2).join(", ")), Math.min(200 + batch * 110, 1500)).catch(() => ""));
+      remaining -= batch;
     }
+    const results = await Promise.all(batches);
+    for (const raw of results) {
+      const s0 = raw.indexOf("["), e0 = raw.lastIndexOf("]");
+      if (s0 !== -1 && e0 > s0) {
+        try {
+          const part = JSON.parse(raw.slice(s0, e0 + 1));
+          if (Array.isArray(part)) parsed = parsed.concat(part);
+        } catch {}
+      }
+    }
+    if (!parsed.length) throw new Error("Kein JSON in Antwort");
+  }
 
-    const fresh = quizOpts.type === "list"
-      ? (Array.isArray(parsed) ? parsed : [])
-          .filter(x => x && x.q && Array.isArray(x.answers) && x.answers.length >= 3 && !seenQuiz.has(x.q))
-          .map(x => { seenQuiz.add(x.q); return { type: "list", cat: x.cat || quizOpts.cat, q: x.q, answers: x.answers.map(a => Array.isArray(a) ? a : [a]), found: [], revealed: false }; })
-      : (() => {
-          const dedup = new Set();
-          return (Array.isArray(parsed) ? parsed : [])
-            .filter(x => {
-              if (!(x && x.q && Array.isArray(x.options) && x.options.length === 4
-                && Number.isInteger(x.correct) && x.correct >= 0 && x.correct <= 3)) return false;
-              if (dedup.has(x.q) || quizzes.some(z => z.q === x.q)) return false;
-              dedup.add(x.q);
-              return true;
-            })
-            .map(x => { seenQuiz.add(x.q); return { type: "mc", cat: x.cat || quizOpts.cat, q: x.q, options: x.options, correct: x.correct, answered: null }; });
-        })();
+  if (quizOpts.type === "list") {
+    return (Array.isArray(parsed) ? parsed : [])
+      .filter(x => x && x.q && Array.isArray(x.answers) && x.answers.length >= 3 && !seenQuiz.has(x.q))
+      .map(x => { seenQuiz.add(x.q); return { type: "list", cat: x.cat || quizOpts.cat, q: x.q, answers: x.answers.map(a => Array.isArray(a) ? a : [a]), found: [], revealed: false }; });
+  }
+  const dedup = new Set();
+  return (Array.isArray(parsed) ? parsed : [])
+    .filter(x => {
+      if (!(x && x.q && Array.isArray(x.options) && x.options.length === 4
+        && Number.isInteger(x.correct) && x.correct >= 0 && x.correct <= 3)) return false;
+      if (dedup.has(x.q) || quizzes.some(z => z.q === x.q)) return false;
+      dedup.add(x.q);
+      return true;
+    })
+    .map(x => { seenQuiz.add(x.q); return { type: "mc", cat: x.cat || quizOpts.cat, q: x.q, options: x.options, correct: x.correct, answered: null }; });
+}
+
+async function loadMoreQuizzes(prepend) {
+  if (generating) return;
+  generating = true;
+  updateEndCard();
+  const goBtn = document.getElementById("quiz-go");
+  if (goBtn) { goBtn.disabled = true; goBtn.textContent = "..."; }
+
+  try {
+    let fresh;
+    // Instant path: pre-generated batch for current settings
+    if (quizBufferKey === currentQuizKey() && quizBuffer.length > 0) {
+      fresh = quizBuffer;
+      quizBuffer = [];
+      quizBufferKey = "";
+    } else {
+      fresh = await generateQuizBatch();
+    }
 
     if (fresh.length) {
       if (prepend) {
@@ -1055,10 +1283,9 @@ Regeln:
     showToast("Fehler: " + (e.message || e));
   }
 
-  generating = false;
-  updateEndCard();
-  const goBtn2 = document.getElementById("quiz-go");
-  if (goBtn2) { goBtn2.disabled = false; goBtn2.textContent = "Los"; }
+  finishGeneration();
+  // Pre-generate the next batch in the background
+  setTimeout(fillQuizBuffer, 300);
 }
 
 function generateNow() {
@@ -1299,8 +1526,8 @@ renderAll();
 if (!workerUrl || !apiKey) {
   document.getElementById("setup").classList.add("show");
 } else {
-  // Warm up the buffer in the background on launch
-  setTimeout(() => { if (visibleCards().length < 12) loadMore(); }, 1500);
+  // Fill the background buffer immediately — refresh & infinite scroll feel instant
+  fillBuffer();
 }
 </script>
 </body>
