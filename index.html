@@ -63,6 +63,51 @@
   #chat-input { flex:1; background:#1c1c27; border:1px solid rgba(255,255,255,0.1); border-radius:20px; padding:10px 16px; color:#f0f0f5; font-size:16px; outline:none; font-family:inherit; }
   #send-btn { width:38px; height:38px; border-radius:50%; background:#7eb8d4; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:16px; }
 
+  /* QUIZ */
+  .quiz-q { font-weight:700; font-size:20px; line-height:1.35; margin-bottom:20px; letter-spacing:-0.3px; }
+  .quiz-opt { width:100%; padding:14px 16px; border-radius:12px; border:1px solid rgba(255,255,255,0.12); background:rgba(255,255,255,0.05); color:#f0f0f5; font-size:14px; cursor:pointer; text-align:left; font-family:inherit; margin-bottom:8px; transition:background 0.15s; }
+  .quiz-opt.correct { background:rgba(126,207,176,0.25); border-color:#7ecfb0; }
+  .quiz-opt.wrong { background:rgba(232,124,154,0.25); border-color:#e87c9a; }
+  .quiz-opt:disabled { cursor:default; opacity:0.85; }
+  .quiz-score { font-size:12px; color:rgba(240,240,245,0.45); margin-bottom:12px; }
+  #bm-btn { background:none; border:none; color:rgba(240,240,245,0.4); font-size:17px; cursor:pointer; flex-shrink:0; padding:4px; }
+  #bm-btn.active { color:#e8a87c; }
+
+  /* QUIZ OPTIONS BAR */
+  #quiz-bar { position:fixed; left:0; right:0; z-index:99; display:none; flex-direction:column; gap:6px; padding:6px 16px 8px; background:rgba(10,10,15,0.92); backdrop-filter:blur(8px); }
+  #quiz-bar.show { display:flex; }
+  .quiz-bar-row { display:flex; gap:8px; }
+  #quiz-topic { flex:2; background:#1c1c27; border:1px solid rgba(255,255,255,0.12); border-radius:10px; padding:8px 10px; color:#f0f0f5; font-size:13px; font-family:inherit; outline:none; min-width:0; }
+  #quiz-topic:focus { border-color:#f0d97e; }
+  .quiz-select { flex:1; background:#1c1c27; border:1px solid rgba(255,255,255,0.12); border-radius:10px; padding:8px 10px; color:#f0f0f5; font-size:13px; font-family:inherit; outline:none; -webkit-appearance:none; appearance:none; }
+
+  /* LIST QUIZ */
+  .lq-input-row { display:flex; gap:8px; margin-bottom:12px; }
+  .lq-input { flex:1; background:#1c1c27; border:1px solid rgba(255,255,255,0.15); border-radius:12px; padding:12px 14px; color:#f0f0f5; font-size:16px; outline:none; font-family:inherit; }
+  .lq-input:focus { border-color:#f0d97e; }
+  .lq-reveal { padding:12px 14px; border-radius:12px; border:1px solid rgba(232,124,154,0.4); background:transparent; color:#e87c9a; font-size:13px; cursor:pointer; font-family:inherit; flex-shrink:0; }
+  .lq-progress { font-size:13px; color:#f0d97e; margin-bottom:10px; font-weight:600; }
+  .lq-answers { display:flex; flex-wrap:wrap; gap:6px; max-height:32dvh; overflow-y:auto; }
+  .lq-slot { padding:7px 12px; border-radius:16px; font-size:13px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:rgba(240,240,245,0.35); }
+  .lq-slot.found { background:rgba(126,207,176,0.2); border-color:#7ecfb0; color:#f0f0f5; }
+  .lq-slot.missed { background:rgba(232,124,154,0.15); border-color:rgba(232,124,154,0.5); color:#e87c9a; }
+
+  /* SOURCE MODAL */
+  #source-modal { position:fixed; inset:0; z-index:350; background:rgba(0,0,0,0.7); display:none; align-items:flex-end; }
+  #source-modal.show { display:flex; }
+  #source-sheet { width:100%; background:#13131a; border-radius:20px 20px 0 0; border-top:1px solid rgba(255,255,255,0.08); padding:16px 20px calc(env(safe-area-inset-bottom) + 20px); max-height:80dvh; overflow-y:auto; }
+  #source-sheet h3 { font-size:16px; font-weight:700; margin-bottom:4px; }
+  #source-sheet .sub { font-size:12px; color:rgba(240,240,245,0.5); margin-bottom:14px; }
+  .src-row { display:flex; gap:8px; margin-bottom:10px; }
+  .src-input { flex:1; background:#1c1c27; border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:12px 14px; color:#f0f0f5; font-size:15px; outline:none; font-family:inherit; }
+  .src-btn { padding:12px 18px; border-radius:12px; border:none; background:#7eb8d4; color:#0a0a0f; font-size:14px; font-weight:700; cursor:pointer; font-family:inherit; flex-shrink:0; }
+  .src-divider { text-align:center; font-size:11px; color:rgba(240,240,245,0.3); margin:14px 0; }
+  .file-label { display:block; width:100%; padding:13px; border-radius:12px; border:1px dashed rgba(255,255,255,0.2); background:rgba(255,255,255,0.03); color:rgba(240,240,245,0.7); font-size:14px; text-align:center; cursor:pointer; }
+  #chapter-list { margin-top:14px; display:none; flex-direction:column; gap:6px; }
+  #chapter-list.show { display:flex; }
+  .chapter-item { padding:11px 14px; border-radius:10px; border:1px solid rgba(255,255,255,0.08); background:#1c1c27; color:rgba(240,240,245,0.85); font-size:13px; text-align:left; cursor:pointer; font-family:inherit; }
+  #src-status { font-size:13px; color:#7eb8d4; min-height:18px; margin-top:10px; }
+
   /* TOAST */
   #toast { position:fixed; bottom:calc(env(safe-area-inset-bottom) + 24px); left:50%; transform:translateX(-50%) translateY(20px); background:#1c1c27; border:1px solid rgba(255,255,255,0.1); padding:10px 18px; border-radius:20px; font-size:13px; z-index:500; opacity:0; transition:all 0.3s; white-space:nowrap; pointer-events:none; max-width:90vw; overflow:hidden; text-overflow:ellipsis; }
   #toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
@@ -94,7 +139,45 @@
 <div id="header">
   <div id="logo">know<span>.</span></div>
   <div id="filter-bar"></div>
+  <button id="bm-btn" onclick="toggleSaved()">🔖</button>
+  <button id="src-btn" style="background:none;border:none;color:rgba(240,240,245,0.4);font-size:19px;cursor:pointer;flex-shrink:0;padding:4px" onclick="openSource()">＋</button>
   <button id="settings-btn" onclick="openSetup()">⚙︎</button>
+</div>
+
+<!-- Quiz options (visible in quiz mode) -->
+<div id="quiz-bar">
+  <div class="quiz-bar-row">
+    <select class="quiz-select" id="quiz-type" onchange="setQuizOpts()">
+      <option value="mc">Multiple Choice</option>
+      <option value="list">Aufzaehlen</option>
+    </select>
+    <select class="quiz-select" id="quiz-cat" onchange="setQuizOpts()">
+      <option value="Gemischt">Alle Kategorien</option>
+      <option value="Geschichte">Geschichte</option>
+      <option value="Geographie">Geographie</option>
+      <option value="Wissenschaft">Wissenschaft</option>
+      <option value="Psychologie">Psychologie</option>
+      <option value="Technologie">Technologie</option>
+      <option value="Sport">Sport</option>
+      <option value="Kultur">Kultur & Sprache</option>
+    </select>
+  </div>
+  <div class="quiz-bar-row">
+    <input id="quiz-topic" type="text" placeholder="Eigenes Thema (optional)..." autocomplete="off" onchange="setQuizOpts()" onblur="setQuizOpts()">
+    <select class="quiz-select" id="quiz-diff" onchange="setQuizOpts()" style="flex:1">
+      <option value="einfach">Einfach</option>
+      <option value="mittel">Mittel</option>
+      <option value="schwer">Schwer</option>
+      <option value="extrem">Extrem schwer</option>
+    </select>
+    <select class="quiz-select" id="quiz-count" onchange="setQuizOpts()" style="flex:0.7">
+      <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="20">20</option>
+      <option value="30">30</option>
+    </select>
+    <button id="quiz-go" onclick="generateNow()" style="flex-shrink:0;padding:8px 14px;border-radius:10px;border:none;background:#f0d97e;color:#0a0a0f;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit">Los</button>
+  </div>
 </div>
 
 <!-- Feed -->
@@ -119,8 +202,25 @@
   </div>
 </div>
 
+<div id="source-modal" onclick="if(event.target===this)closeSource()">
+  <div id="source-sheet">
+    <h3>Quiz aus eigener Quelle</h3>
+    <div class="sub">Webseite oder ePub — Claude erstellt daraus Quizfragen.</div>
+    <div class="src-row">
+      <input class="src-input" id="src-url" type="url" placeholder="https://de.wikipedia.org/wiki/..." autocomplete="off">
+      <button class="src-btn" onclick="quizFromUrl()">Los</button>
+    </div>
+    <div class="src-divider">— oder —</div>
+    <label class="file-label" for="src-file">📚 ePub / Text-Datei hochladen</label>
+    <input id="src-file" type="file" accept=".epub,.txt,.html" style="display:none" onchange="handleFile(this.files[0])">
+    <div id="chapter-list"></div>
+    <div id="src-status"></div>
+  </div>
+</div>
+
 <div id="toast"></div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script>
 "use strict";
 
@@ -131,7 +231,11 @@ const LS = {
   cards: "know_cards",
   likes: "know_likes",
   bookmarks: "know_bookmarks",
-  seen: "know_seen_titles"
+  seen: "know_seen_titles",
+  quizscore: "know_quizscore",
+  seenquiz: "know_seen_quiz",
+  quizzes: "know_quizzes",
+  viewed: "know_viewed"
 };
 const MODELS = ["claude-3-5-haiku-20241022", "claude-sonnet-4-5"]; // haiku first (bewaehrt mit diesem Worker)
 
@@ -183,6 +287,60 @@ let bookmarks = loadJSON(LS.bookmarks) || {};
 let seenTitles = new Set(loadJSON(LS.seen) || SEED_CARDS.map(c => c.title));
 let filter = "Alle";
 let generating = false;
+let quizzes = loadJSON(LS.quizzes) || [];
+let quizScore = loadJSON(LS.quizscore) || { right: 0, wrong: 0 };
+let seenQuiz = new Set(loadJSON(LS.seenquiz) || []);
+let viewedSet = new Set(loadJSON(LS.viewed) || []);
+let quizOpts = Object.assign(
+  { type: "mc", cat: "Gemischt", diff: "mittel", count: 5, topic: "" },
+  loadJSON("know_quizopts") || {});
+
+function setQuizOpts() {
+  quizOpts.type = document.getElementById("quiz-type").value;
+  quizOpts.cat = document.getElementById("quiz-cat").value;
+  quizOpts.diff = document.getElementById("quiz-diff").value;
+  quizOpts.count = parseInt(document.getElementById("quiz-count").value, 10) || 5;
+  quizOpts.topic = document.getElementById("quiz-topic").value.trim();
+  // count not applicable for list quizzes
+  document.getElementById("quiz-count").style.display = quizOpts.type === "list" ? "none" : "";
+  try { localStorage.setItem("know_quizopts", JSON.stringify(quizOpts)); } catch {}
+}
+function syncQuizBar() {
+  document.getElementById("quiz-type").value = quizOpts.type;
+  document.getElementById("quiz-cat").value = quizOpts.cat;
+  document.getElementById("quiz-diff").value = quizOpts.diff;
+  document.getElementById("quiz-count").value = String(quizOpts.count);
+  document.getElementById("quiz-topic").value = quizOpts.topic || "";
+  document.getElementById("quiz-count").style.display = quizOpts.type === "list" ? "none" : "";
+  const bar = document.getElementById("quiz-bar");
+  bar.classList.toggle("show", filter === "Quiz");
+  const h = document.getElementById("header");
+  bar.style.top = h.offsetHeight + "px";
+}
+
+const DIFF_TEXT = {
+  einfach: "Schwierigkeit: EINFACH — bekanntes Grundwissen, das die meisten Menschen haben.",
+  mittel: "Schwierigkeit: MITTEL — solides Allgemeinwissen, fordernd aber fair.",
+  schwer: "Schwierigkeit: SCHWER — Detailwissen fuer Kenner, ueber das Offensichtliche hinaus.",
+  extrem: "Schwierigkeit: EXTREM SCHWER — obskures Expertenwissen, Nischendetails, kaum jemand weiss das."
+};
+
+// Fresh feed every launch: unviewed cards first, both groups shuffled
+function shuffleArr(a) {
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+cards = shuffleArr(cards.filter(c => !viewedSet.has(c.title)))
+  .concat(shuffleArr(cards.filter(c => viewedSet.has(c.title))));
+// Quizzes: unanswered first, shuffled
+function quizDone(q) {
+  if (q.type === "list") return q.revealed || (q.found || []).length >= q.answers.length;
+  return q.answered !== null && q.answered !== undefined;
+}
+quizzes = shuffleArr(quizzes.filter(q => !quizDone(q))).concat(quizzes.filter(q => quizDone(q)));
 let panelCard = null;
 let chatHistory = [];
 let chatLoading = false;
@@ -194,6 +352,10 @@ function saveState() {
     localStorage.setItem(LS.likes, JSON.stringify(likes));
     localStorage.setItem(LS.bookmarks, JSON.stringify(bookmarks));
     localStorage.setItem(LS.seen, JSON.stringify([...seenTitles].slice(-200)));
+    localStorage.setItem(LS.quizscore, JSON.stringify(quizScore));
+    localStorage.setItem(LS.quizzes, JSON.stringify(quizzes.slice(-100)));
+    localStorage.setItem(LS.viewed, JSON.stringify([...viewedSet].slice(-300)));
+    localStorage.setItem(LS.seenquiz, JSON.stringify([...seenQuiz].slice(-200)));
   } catch {}
 }
 
@@ -206,7 +368,7 @@ async function callAI(promptText, maxTokens) {
     try {
       const res = await fetch(workerUrl, {
         method: "POST",
-        headers: { "Content-Type": "application/json", "x-api-key": apiKey, "anthropic-version": "2023-06-01" },
+        headers: { "Content-Type": "application/json", "x-api-key": apiKey },
         body: JSON.stringify({
           model,
           max_tokens: maxTokens || 1200,
@@ -257,108 +419,333 @@ function showToast(msg) {
   toastTimer = setTimeout(() => t.classList.remove("show"), 3500);
 }
 
-// ============ RENDER ============
-function visibleCards() { return filter === "Alle" ? cards : cards.filter(c => c.cat === filter); }
+// ============ RENDER (incremental) ============
+function visibleCards() {
+  if (filter === "__saved") return cards.filter(c => bookmarks[c.title]);
+  if (filter === "Quiz") return quizzes;
+  return filter === "Alle" ? cards : cards.filter(c => c.cat === filter);
+}
+
+function toggleSaved() {
+  filter = filter === "__saved" ? "Alle" : "__saved";
+  document.getElementById("bm-btn").classList.toggle("active", filter === "__saved");
+  renderFilterBar();
+  buildFeed();
+  document.getElementById("feed").scrollTop = 0;
+}
 
 function renderFilterBar() {
   const bar = document.getElementById("filter-bar");
   bar.innerHTML = "";
-  CATS.forEach(cat => {
+  const allChips = CATS.concat(["Quiz"]);
+  allChips.forEach(cat => {
     const b = document.createElement("button");
     b.className = "chip" + (filter === cat ? " active" : "");
     b.textContent = cat;
+    const chipColor = cat === "Quiz" ? "#f0d97e" : CAT_COLORS[cat];
     if (cat !== "Alle") {
-      b.style.color = filter === cat ? "#0a0a0f" : CAT_COLORS[cat];
-      b.style.borderColor = filter === cat ? "transparent" : CAT_COLORS[cat] + "55";
+      b.style.color = filter === cat ? "#0a0a0f" : chipColor;
+      b.style.borderColor = filter === cat ? "transparent" : chipColor + "55";
     }
-    if (filter === cat) b.style.background = cat === "Alle" ? "#f0f0f5" : CAT_COLORS[cat];
-    b.onclick = () => { filter = cat; renderAll(); document.getElementById("feed").scrollTop = 0; };
+    if (filter === cat) b.style.background = cat === "Alle" ? "#f0f0f5" : chipColor;
+    b.onclick = () => {
+      filter = cat;
+      document.getElementById("bm-btn").classList.remove("active");
+      renderFilterBar();
+      buildFeed();
+      document.getElementById("feed").scrollTop = 0;
+      maybePrefetch();
+    };
     bar.appendChild(b);
   });
 }
 
-function renderFeed() {
-  const feed = document.getElementById("feed");
-  feed.innerHTML = "";
-  const vis = visibleCards();
-
-  vis.forEach((card, i) => {
-    const col = CAT_COLORS[card.cat] || "#7eb8d4";
-    const rgb = CAT_RGBA[card.cat] || "126,184,212";
-    if (!card._x) { card._x = 20 + Math.floor(Math.random()*50); card._y = 15 + Math.floor(Math.random()*40); }
-
-    const el = document.createElement("div");
-    el.className = "card";
-    el.innerHTML = `
-      <div class="card-bg" style="background:radial-gradient(ellipse at ${card._x}% ${card._y}%, rgba(${rgb},0.25) 0%, transparent 60%), #0a0a0f"></div>
-      <div class="card-grad"></div>
-      <div class="card-content">
-        <div class="badge" style="background:${col}">${esc(card.cat)}</div>
-        <div class="emoji">${card.emoji}</div>
-        <div class="title">${esc(card.title)}</div>
-        <div class="fact">${esc(card.fact)}</div>
-        <div class="actions">
-          <button class="action-btn ${likes[card.title] ? "on-like" : ""}" data-act="like">
-            ${likes[card.title] ? "❤️" : "🤍"} Interessant
-          </button>
-          <button class="action-btn ${bookmarks[card.title] ? "on-bm" : ""}" data-act="bm">
-            ${bookmarks[card.title] ? "🔖" : "📑"} Speichern
-          </button>
-        </div>
-        <button class="dive-btn" data-act="dive">🤖 Tiefer eintauchen — Frag die KI</button>
-      </div>`;
-    el.querySelector('[data-act="like"]').onclick = () => { likes[card.title] = !likes[card.title]; saveState(); renderFeedPreserveScroll(); if (likes[card.title]) showToast("❤️ Interessant markiert"); };
-    el.querySelector('[data-act="bm"]').onclick = () => { bookmarks[card.title] = !bookmarks[card.title]; saveState(); renderFeedPreserveScroll(); showToast(bookmarks[card.title] ? "🔖 Gespeichert" : "Entfernt"); };
-    el.querySelector('[data-act="dive"]').onclick = () => openPanel(card);
-    feed.appendChild(el);
+// Marks cards as "viewed" once they actually appear on screen
+let viewSaveTimer = null;
+const viewObs = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (en.isIntersecting) {
+      const t = en.target.dataset.title;
+      if (t && !viewedSet.has(t)) {
+        viewedSet.add(t);
+        clearTimeout(viewSaveTimer);
+        viewSaveTimer = setTimeout(saveState, 1000);
+      }
+      viewObs.unobserve(en.target);
+    }
   });
+}, { threshold: 0.5 });
 
-  // End card
+function makeCardEl(card) {
+  const col = CAT_COLORS[card.cat] || "#7eb8d4";
+  const rgb = CAT_RGBA[card.cat] || "126,184,212";
+  if (!card._x) { card._x = 20 + Math.floor(Math.random()*50); card._y = 15 + Math.floor(Math.random()*40); }
+
+  const el = document.createElement("div");
+  el.className = "card";
+  el.innerHTML = `
+    <div class="card-bg" style="background:radial-gradient(ellipse at ${card._x}% ${card._y}%, rgba(${rgb},0.25) 0%, transparent 60%), #0a0a0f"></div>
+    <div class="card-grad"></div>
+    <div class="card-content">
+      <div class="badge" style="background:${col}">${esc(card.cat)}</div>
+      <div class="emoji">${card.emoji}</div>
+      <div class="title">${esc(card.title)}</div>
+      <div class="fact">${esc(card.fact)}</div>
+      <div class="actions">
+        <button class="action-btn ${likes[card.title] ? "on-like" : ""}" data-act="like">${likes[card.title] ? "❤️" : "🤍"} Interessant</button>
+        <button class="action-btn ${bookmarks[card.title] ? "on-bm" : ""}" data-act="bm">${bookmarks[card.title] ? "🔖" : "📑"} Speichern</button>
+      </div>
+      <button class="dive-btn" data-act="dive">🤖 Tiefer eintauchen — Frag die KI</button>
+    </div>`;
+
+  // In-place updates — no feed re-render, scroll stays put
+  const likeBtn = el.querySelector('[data-act="like"]');
+  likeBtn.onclick = () => {
+    likes[card.title] = !likes[card.title];
+    likeBtn.classList.toggle("on-like", !!likes[card.title]);
+    likeBtn.innerHTML = (likes[card.title] ? "❤️" : "🤍") + " Interessant";
+    saveState();
+    if (likes[card.title]) showToast("❤️ Interessant markiert");
+  };
+  const bmBtn = el.querySelector('[data-act="bm"]');
+  bmBtn.onclick = () => {
+    bookmarks[card.title] = !bookmarks[card.title];
+    bmBtn.classList.toggle("on-bm", !!bookmarks[card.title]);
+    bmBtn.innerHTML = (bookmarks[card.title] ? "🔖" : "📑") + " Speichern";
+    saveState();
+    showToast(bookmarks[card.title] ? "🔖 Gespeichert" : "Entfernt");
+  };
+  el.querySelector('[data-act="dive"]').onclick = () => openPanel(card);
+  el.dataset.title = card.title;
+  viewObs.observe(el);
+  return el;
+}
+
+function makeEndCard() {
   const end = document.createElement("div");
   end.id = "end-card";
+  updateEndCard(end);
+  return end;
+}
+function updateEndCard(end) {
+  end = end || document.getElementById("end-card");
+  if (!end) return;
   end.innerHTML = generating
     ? `<div class="pulsing" style="font-size:40px">✨</div><div style="font-size:14px;color:rgba(240,240,245,0.5)">Neue Themen werden generiert...</div>`
-    : `<div style="font-size:40px">🔭</div><div style="font-size:14px;color:rgba(240,240,245,0.5);text-align:center">Mehr Wissen wartet auf dich</div><button id="load-btn">Neue Themen laden</button>`;
+    : (filter === "Quiz"
+      ? `<div style="font-size:40px">🏆</div><div style="font-size:14px;color:rgba(240,240,245,0.5);text-align:center">Richtig: ${quizScore.right} · Falsch: ${quizScore.wrong}</div><button id="load-btn">Neue Fragen laden</button>`
+      : `<div style="font-size:40px">🔭</div><div style="font-size:14px;color:rgba(240,240,245,0.5);text-align:center">Mehr Wissen wartet auf dich</div><button id="load-btn">Neue Themen laden</button>`);
   if (!generating) end.querySelector("#load-btn").onclick = loadMore;
-  feed.appendChild(end);
-
-  setupSentinel();
 }
 
-let savedScroll = 0;
-function renderFeedPreserveScroll() {
+// Full rebuild — only on init and filter change
+function buildFeed() {
   const feed = document.getElementById("feed");
-  savedScroll = feed.scrollTop;
-  renderFeed();
-  feed.scrollTop = savedScroll;
+  feed.innerHTML = "";
+  syncQuizBar();
+
+  if (filter === "__saved") {
+    const saved = visibleCards();
+    if (!saved.length) {
+      const empty = document.createElement("div");
+      empty.id = "end-card";
+      empty.innerHTML = `<div style="font-size:40px">🔖</div><div style="font-size:14px;color:rgba(240,240,245,0.5);text-align:center">Noch nichts gespeichert.<br>Tippe auf einer Card auf "Speichern".</div>`;
+      feed.appendChild(empty);
+    } else {
+      saved.forEach(card => feed.appendChild(makeCardEl(card)));
+    }
+    if (observer) observer.disconnect();
+    return; // no end card, no generation in saved view
+  }
+
+  if (filter === "Quiz") {
+    quizzes.forEach((qz, i) => feed.appendChild(makeQuizEl(qz, i)));
+    feed.appendChild(makeEndCard());
+    observePrefetchTarget();
+    if (!quizzes.length) loadMore();
+    return;
+  }
+
+  visibleCards().forEach(card => feed.appendChild(makeCardEl(card)));
+  feed.appendChild(makeEndCard());
+  observePrefetchTarget();
 }
 
-function renderAll() { renderFilterBar(); renderFeed(); }
+function normAnswer(s) {
+  return s.toLowerCase().trim()
+    .replace(/ä/g,"ae").replace(/ö/g,"oe").replace(/ü/g,"ue").replace(/ß/g,"ss")
+    .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+    .replace(/[^a-z0-9]/g,"");
+}
 
-// ============ INFINITE SCROLL ============
+function makeListQuizEl(qz, idx) {
+  if (!qz.found) qz.found = [];
+  const el = document.createElement("div");
+  el.className = "card";
+  el.innerHTML = `
+    <div class="card-bg" style="background:radial-gradient(ellipse at ${20 + (idx*37)%50}% ${15 + (idx*23)%40}%, rgba(240,217,126,0.18) 0%, transparent 60%), #0a0a0f"></div>
+    <div class="card-grad"></div>
+    <div class="card-content">
+      <div class="badge" style="background:#f0d97e">Aufzaehlen · ${esc(qz.cat || "Allgemein")}</div>
+      <div class="quiz-q">${esc(qz.q)}</div>
+      <div class="lq-progress"></div>
+      <div class="lq-input-row">
+        <input class="lq-input" type="text" placeholder="Antwort tippen..." autocomplete="off" autocapitalize="off">
+        <button class="lq-reveal">Aufloesen</button>
+      </div>
+      <div class="lq-answers"></div>
+    </div>`;
+
+  const input = el.querySelector(".lq-input");
+  const revealBtn = el.querySelector(".lq-reveal");
+  const progress = el.querySelector(".lq-progress");
+  const answersWrap = el.querySelector(".lq-answers");
+
+  function renderSlots() {
+    progress.textContent = `${qz.found.length} / ${qz.answers.length} gefunden`;
+    answersWrap.innerHTML = "";
+    qz.answers.forEach((ans, ai) => {
+      const slot = document.createElement("div");
+      slot.className = "lq-slot";
+      const main = Array.isArray(ans) ? ans[0] : ans;
+      if (qz.found.includes(ai)) { slot.classList.add("found"); slot.textContent = main; }
+      else if (qz.revealed) { slot.classList.add("missed"); slot.textContent = main; }
+      else { slot.textContent = "?".repeat(Math.min(main.length, 10)); }
+      answersWrap.appendChild(slot);
+    });
+    if (qz.revealed || qz.found.length >= qz.answers.length) {
+      input.disabled = true; revealBtn.disabled = true; revealBtn.style.opacity = "0.4";
+    }
+  }
+
+  input.addEventListener("input", () => {
+    const val = normAnswer(input.value);
+    if (!val) return;
+    qz.answers.forEach((ans, ai) => {
+      if (qz.found.includes(ai)) return;
+      const variants = Array.isArray(ans) ? ans : [ans];
+      if (variants.some(v => normAnswer(v) === val)) {
+        qz.found.push(ai);
+        quizScore.right++;
+        input.value = "";
+        saveState();
+        renderSlots();
+        if (qz.found.length >= qz.answers.length) showToast("🏆 Alle gefunden!");
+      }
+    });
+  });
+
+  revealBtn.onclick = () => {
+    if (qz.revealed) return;
+    qz.revealed = true;
+    quizScore.wrong += qz.answers.length - qz.found.length;
+    saveState();
+    renderSlots();
+  };
+
+  renderSlots();
+  return el;
+}
+
+function makeQuizEl(qz, idx) {
+  if (qz.type === "list") return makeListQuizEl(qz, idx);
+  const el = document.createElement("div");
+  el.className = "card";
+  el.innerHTML = `
+    <div class="card-bg" style="background:radial-gradient(ellipse at ${20 + (idx*37)%50}% ${15 + (idx*23)%40}%, rgba(240,217,126,0.18) 0%, transparent 60%), #0a0a0f"></div>
+    <div class="card-grad"></div>
+    <div class="card-content">
+      <div class="badge" style="background:#f0d97e">Quiz · ${esc(qz.cat || "Allgemein")}</div>
+      <div class="quiz-score">Frage ${idx + 1} · Richtig: ${quizScore.right} · Falsch: ${quizScore.wrong}</div>
+      <div class="quiz-q">${esc(qz.q)}</div>
+      <div class="quiz-opts"></div>
+    </div>`;
+
+  const optsWrap = el.querySelector(".quiz-opts");
+  qz.options.forEach((opt, oi) => {
+    const b = document.createElement("button");
+    b.className = "quiz-opt";
+    b.textContent = opt;
+    if (qz.answered !== undefined && qz.answered !== null) {
+      b.disabled = true;
+      if (oi === qz.correct) b.classList.add("correct");
+      else if (oi === qz.answered && qz.answered !== qz.correct) b.classList.add("wrong");
+    } else {
+      b.onclick = () => {
+        qz.answered = oi;
+        const right = oi === qz.correct;
+        if (right) quizScore.right++; else quizScore.wrong++;
+        saveState();
+        // In-place feedback, no rebuild
+        [...optsWrap.children].forEach((btn, bi) => {
+          btn.disabled = true;
+          if (bi === qz.correct) btn.classList.add("correct");
+          else if (bi === oi && !right) btn.classList.add("wrong");
+        });
+        el.querySelector(".quiz-score").textContent = `Frage ${idx + 1} · Richtig: ${quizScore.right} · Falsch: ${quizScore.wrong}`;
+        showToast(right ? "✓ Richtig!" : "✗ Leider falsch");
+      };
+    }
+    optsWrap.appendChild(b);
+  });
+  return el;
+}
+
+// Append only — used after generation, scroll untouched
+function appendCards(newCards) {
+  const feed = document.getElementById("feed");
+  const end = document.getElementById("end-card");
+  if (!end) return;
+  newCards.forEach(card => {
+    if (filter === "Alle" || card.cat === filter) {
+      feed.insertBefore(makeCardEl(card), end);
+    }
+  });
+  observePrefetchTarget();
+}
+
+function appendQuizzes(newQuizzes, startIdx) {
+  const feed = document.getElementById("feed");
+  const end = document.getElementById("end-card");
+  if (!end) return;
+  newQuizzes.forEach((qz, i) => feed.insertBefore(makeQuizEl(qz, startIdx + i), end));
+  observePrefetchTarget();
+}
+
+function renderAll() { renderFilterBar(); buildFeed(); }
+
+// ============ INFINITE SCROLL (prefetch early) ============
 let observer = null;
-function setupSentinel() {
+function observePrefetchTarget() {
   if (observer) observer.disconnect();
   const feed = document.getElementById("feed");
   const cardEls = feed.querySelectorAll(".card");
-  if (cardEls.length < 2) return;
-  const target = cardEls[cardEls.length - 2]; // second-to-last card
+  if (!cardEls.length) return;
+  // Trigger 3 cards before the end — generation finishes before user arrives
+  const idx = Math.max(0, cardEls.length - 3);
   observer = new IntersectionObserver(entries => {
-    if (entries[0].isIntersecting && !generating) loadMore();
-  }, { threshold: 0.3 });
-  observer.observe(target);
+    if (entries[0].isIntersecting) loadMore();
+  }, { threshold: 0.2 });
+  observer.observe(cardEls[idx]);
+}
+
+function maybePrefetch() {
+  if (filter === "__saved") return;
+  if (visibleCards().length < 4) loadMore();
 }
 
 async function loadMore() {
   if (generating) return;
   if (!workerUrl || !apiKey) { openSetup(); return; }
+  if (filter === "__saved") return;
+  if (filter === "Quiz") return loadMoreQuizzes();
   generating = true;
-  renderFeedPreserveScroll();
+  updateEndCard();
 
   const targetCats = filter === "Alle" ? ALL_CATS : [filter];
-  const seen = [...seenTitles].slice(-25).join("; ");
+  const seen = [...seenTitles].slice(-20).join("; ");
 
-  const prompt = `Generiere genau 3 neue faszinierende Wissens-Themen auf Deutsch fuer eine Lern-App.
+  const prompt = `Generiere genau 5 neue faszinierende Wissens-Themen auf Deutsch fuer eine Lern-App.
 Erlaubte Kategorien: ${targetCats.join(", ")}
 Diese Themen NICHT wiederholen: ${seen}
 
@@ -367,11 +754,11 @@ Antworte AUSSCHLIESSLICH mit einem JSON-Array, ohne Markdown, ohne Text drumheru
 
 Regeln:
 - cat exakt eine aus: ${targetCats.join(", ")}
-- fact: 2 bis 3 lehrreiche, ueberraschende Saetze auf Deutsch (Umlaute sind hier erlaubt)
+- fact: 2 bis 3 lehrreiche, ueberraschende Saetze auf Deutsch
 - quickQ: genau 3 kurze Fragen`;
 
   try {
-    const raw = await callAI(prompt, 1200);
+    const raw = await callAI(prompt, 2000);
     const start = raw.indexOf("[");
     const end = raw.lastIndexOf("]");
     if (start === -1 || end <= start) throw new Error("Kein JSON in Antwort");
@@ -393,7 +780,7 @@ Regeln:
     if (fresh.length) {
       cards = cards.concat(fresh);
       saveState();
-      showToast(`✨ ${fresh.length} neue Themen geladen`);
+      appendCards(fresh);
     } else {
       showToast("Keine neuen Themen erhalten");
     }
@@ -402,7 +789,259 @@ Regeln:
   }
 
   generating = false;
-  renderFeedPreserveScroll();
+  updateEndCard();
+}
+
+async function loadMoreQuizzes(prepend) {
+  if (generating) return;
+  generating = true;
+  updateEndCard();
+  const goBtn = document.getElementById("quiz-go");
+  if (goBtn) { goBtn.disabled = true; goBtn.textContent = "..."; }
+
+  const seenQ = [...seenQuiz].slice(-20).join("; ");
+  const catLine = quizOpts.topic
+    ? `Alle Fragen zum Thema: "${quizOpts.topic}".`
+    : (quizOpts.cat === "Gemischt"
+      ? "Themen gemischt aus: Geographie, Geschichte, Wissenschaft, Kultur, Sprache, Sport, Natur."
+      : `Alle Fragen aus der Kategorie: ${quizOpts.cat}.`);
+  const diffLine = DIFF_TEXT[quizOpts.diff] || DIFF_TEXT.mittel;
+  const mcCount = quizOpts.count || 5;
+
+  const prompt = quizOpts.type === "list"
+    ? `Generiere genau 3 Aufzaehl-Quizfragen auf Deutsch im Stil von JetPunk (z.B. "Nenne die 7 Kontinente").
+${catLine}
+${diffLine}
+Diese Fragen NICHT wiederholen: ${seenQ}
+
+Antworte AUSSCHLIESSLICH mit einem JSON-Array, ohne Markdown:
+[{"cat":"Geographie","q":"Nenne die 5 groessten Laender der Erde nach Flaeche","answers":[["Russland"],["Kanada"],["China"],["USA","Vereinigte Staaten"],["Brasilien"]]}]
+
+Regeln:
+- answers: 4 bis 10 Eintraege; jeder Eintrag ist ein Array mit der Hauptantwort und gaengigen Schreibvarianten
+- Fragen muessen eindeutig und faktisch korrekt beantwortbar sein
+- q praezise formulieren (mit Anzahl, z.B. "Nenne die 7 ...")`
+    : `Generiere genau ${mcCount} Multiple-Choice-Quizfragen auf Deutsch im Stil von Allgemeinwissens-Quizzen (wie JetPunk): knapp und eindeutig.
+${catLine}
+${diffLine}
+Diese Fragen NICHT wiederholen: ${seenQ}
+
+Antworte AUSSCHLIESSLICH mit einem JSON-Array, ohne Markdown:
+[{"cat":"Geographie","q":"Welches ist das flaechengroesste Land der Erde?","options":["Kanada","Russland","China","USA"],"correct":1}]
+
+Regeln:
+- genau 4 options pro Frage
+- correct ist der Index (0-3) der richtigen Antwort
+- die Position der richtigen Antwort muss zufaellig variieren
+- q: kurze, praezise Frage auf Deutsch`;
+
+  try {
+    const tokenBudget = quizOpts.type === "list" ? 2000 : Math.min(200 + mcCount * 110, 4000);
+    const raw = await callAI(prompt, tokenBudget);
+    const start = raw.indexOf("[");
+    const end = raw.lastIndexOf("]");
+    if (start === -1 || end <= start) throw new Error("Kein JSON in Antwort");
+    const parsed = JSON.parse(raw.slice(start, end + 1));
+
+    const fresh = quizOpts.type === "list"
+      ? (Array.isArray(parsed) ? parsed : [])
+          .filter(x => x && x.q && Array.isArray(x.answers) && x.answers.length >= 3 && !seenQuiz.has(x.q))
+          .map(x => { seenQuiz.add(x.q); return { type: "list", cat: x.cat || quizOpts.cat, q: x.q, answers: x.answers.map(a => Array.isArray(a) ? a : [a]), found: [], revealed: false }; })
+      : (Array.isArray(parsed) ? parsed : [])
+          .filter(x => x && x.q && Array.isArray(x.options) && x.options.length === 4
+            && Number.isInteger(x.correct) && x.correct >= 0 && x.correct <= 3
+            && !seenQuiz.has(x.q))
+          .map(x => { seenQuiz.add(x.q); return { type: "mc", cat: x.cat || quizOpts.cat, q: x.q, options: x.options, correct: x.correct, answered: null }; });
+
+    if (fresh.length) {
+      if (prepend) {
+        quizzes = fresh.concat(quizzes);
+        saveState();
+        if (filter === "Quiz") {
+          buildFeed();
+          document.getElementById("feed").scrollTop = 0;
+        }
+        showToast(`🏆 ${fresh.length} neue Fragen`);
+      } else {
+        const startIdx = quizzes.length;
+        quizzes = quizzes.concat(fresh);
+        saveState();
+        if (filter === "Quiz") appendQuizzes(fresh, startIdx);
+      }
+    } else {
+      showToast("Keine neuen Fragen erhalten");
+    }
+  } catch (e) {
+    showToast("Fehler: " + (e.message || e));
+  }
+
+  generating = false;
+  updateEndCard();
+  const goBtn2 = document.getElementById("quiz-go");
+  if (goBtn2) { goBtn2.disabled = false; goBtn2.textContent = "Los"; }
+}
+
+function generateNow() {
+  setQuizOpts(); // make sure latest topic text is captured
+  loadMoreQuizzes(true);
+}
+
+// ============ CUSTOM SOURCES (URL / ePub) ============
+let epubChapters = [];
+
+function openSource() {
+  document.getElementById("source-modal").classList.add("show");
+  document.getElementById("src-status").textContent = "";
+}
+function closeSource() {
+  document.getElementById("source-modal").classList.remove("show");
+  document.getElementById("chapter-list").classList.remove("show");
+  document.getElementById("chapter-list").innerHTML = "";
+  epubChapters = [];
+}
+function srcStatus(msg) { document.getElementById("src-status").textContent = msg; }
+
+function htmlToText(htmlStr) {
+  const doc = new DOMParser().parseFromString(htmlStr, "text/html");
+  doc.querySelectorAll("script,style,nav,header,footer,aside,noscript").forEach(n => n.remove());
+  return (doc.body ? doc.body.textContent : doc.documentElement.textContent || "")
+    .replace(/\s+/g, " ").trim();
+}
+
+async function quizFromUrl() {
+  const url = document.getElementById("src-url").value.trim();
+  if (!url.startsWith("http")) { srcStatus("Bitte gueltige URL eingeben"); return; }
+  if (!workerUrl || !apiKey) { closeSource(); openSetup(); return; }
+  srcStatus("Lade Webseite...");
+  try {
+    const res = await fetch(workerUrl + "/fetch", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "x-api-key": apiKey },
+      body: JSON.stringify({ url })
+    });
+    if (!res.ok) throw new Error("Worker /fetch nicht erreichbar (HTTP " + res.status + ") — Worker-Update noetig?");
+    const data = await res.json();
+    const text = htmlToText(data.html || "");
+    if (text.length < 200) throw new Error("Zu wenig Text auf der Seite gefunden");
+    let label = "Web";
+    try { label = new URL(url).hostname.replace("www.", ""); } catch {}
+    await generateQuizFromText(text, label);
+  } catch (e) {
+    srcStatus("Fehler: " + (e.message || e));
+  }
+}
+
+async function handleFile(file) {
+  if (!file) return;
+  srcStatus("Lese Datei...");
+  try {
+    if (file.name.endsWith(".epub")) {
+      await parseEpub(file);
+    } else {
+      const text = file.name.endsWith(".html")
+        ? htmlToText(await file.text())
+        : (await file.text()).replace(/\s+/g, " ").trim();
+      if (text.length < 200) throw new Error("Zu wenig Text in der Datei");
+      await generateQuizFromText(text, file.name.replace(/\.(txt|html)$/, ""));
+    }
+  } catch (e) {
+    srcStatus("Fehler: " + (e.message || e));
+  }
+}
+
+async function parseEpub(file) {
+  if (typeof JSZip === "undefined") throw new Error("JSZip nicht geladen");
+  const zip = await JSZip.loadAsync(file);
+
+  // container.xml -> OPF path
+  const containerXml = await zip.file("META-INF/container.xml").async("text");
+  const opfPath = new DOMParser().parseFromString(containerXml, "text/xml")
+    .querySelector("rootfile").getAttribute("full-path");
+  const opfDir = opfPath.includes("/") ? opfPath.substring(0, opfPath.lastIndexOf("/") + 1) : "";
+
+  // OPF: manifest + spine
+  const opfXml = await zip.file(opfPath).async("text");
+  const opf = new DOMParser().parseFromString(opfXml, "text/xml");
+  const manifest = {};
+  opf.querySelectorAll("manifest > item").forEach(it => manifest[it.getAttribute("id")] = it.getAttribute("href"));
+  const hrefs = [...opf.querySelectorAll("spine > itemref")]
+    .map(ir => manifest[ir.getAttribute("idref")]).filter(Boolean);
+
+  // Extract chapters with text
+  epubChapters = [];
+  for (const href of hrefs) {
+    const f = zip.file(opfDir + href) || zip.file(href);
+    if (!f) continue;
+    const raw = await f.async("text");
+    const doc = new DOMParser().parseFromString(raw, "text/html");
+    doc.querySelectorAll("script,style").forEach(n => n.remove());
+    const text = (doc.body ? doc.body.textContent : "").replace(/\s+/g, " ").trim();
+    if (text.length < 300) continue; // skip cover/toc pages
+    const h = doc.querySelector("h1,h2,h3");
+    const title = (h && h.textContent.trim()) || text.slice(0, 50) + "...";
+    epubChapters.push({ title, text });
+  }
+  if (!epubChapters.length) throw new Error("Keine Kapitel mit Text gefunden");
+
+  // Show chapter picker
+  const list = document.getElementById("chapter-list");
+  list.innerHTML = "";
+  epubChapters.forEach((ch, i) => {
+    const b = document.createElement("button");
+    b.className = "chapter-item";
+    b.textContent = (i + 1) + ". " + ch.title.slice(0, 70);
+    b.onclick = () => generateQuizFromText(ch.text, ch.title.slice(0, 30));
+    list.appendChild(b);
+  });
+  list.classList.add("show");
+  srcStatus(epubChapters.length + " Kapitel gefunden — waehle eins aus:");
+}
+
+async function generateQuizFromText(text, label) {
+  srcStatus("Generiere Quizfragen...");
+  const excerpt = text.slice(0, 9000);
+  const prompt = `Hier ist ein Textauszug:
+
+"""
+${excerpt}
+"""
+
+Erstelle genau 5 Multiple-Choice-Quizfragen auf Deutsch, die sich AUSSCHLIESSLICH auf Inhalte aus diesem Text beziehen. Knapp, eindeutig, lehrreich.
+
+Antworte AUSSCHLIESSLICH mit einem JSON-Array, ohne Markdown:
+[{"q":"Frage?","options":["A","B","C","D"],"correct":0}]
+
+Regeln:
+- genau 4 options pro Frage
+- correct ist der Index (0-3) der richtigen Antwort, Position zufaellig variieren
+- Fragen muessen aus dem Text beantwortbar sein`;
+
+  try {
+    const raw = await callAI(prompt, 2000);
+    const s = raw.indexOf("[");
+    const e = raw.lastIndexOf("]");
+    if (s === -1 || e <= s) throw new Error("Kein JSON in Antwort");
+    const parsed = JSON.parse(raw.slice(s, e + 1));
+
+    const fresh = (Array.isArray(parsed) ? parsed : [])
+      .filter(x => x && x.q && Array.isArray(x.options) && x.options.length === 4
+        && Number.isInteger(x.correct) && x.correct >= 0 && x.correct <= 3)
+      .map(x => { seenQuiz.add(x.q); return { cat: label, q: x.q, options: x.options, correct: x.correct, answered: null }; });
+
+    if (!fresh.length) throw new Error("Keine gueltigen Fragen erhalten");
+
+    quizzes = fresh.concat(quizzes); // new ones first
+    saveState();
+    closeSource();
+    filter = "Quiz";
+    document.getElementById("bm-btn").classList.remove("active");
+    renderFilterBar();
+    buildFeed();
+    document.getElementById("feed").scrollTop = 0;
+    showToast(`🏆 ${fresh.length} Fragen aus "${label}" erstellt`);
+  } catch (err) {
+    srcStatus("Fehler: " + (err.message || err));
+  }
 }
 
 // ============ CHAT PANEL ============
@@ -477,7 +1116,12 @@ document.getElementById("chat-input").addEventListener("keydown", e => {
 
 // ============ INIT ============
 renderAll();
-if (!workerUrl || !apiKey) document.getElementById("setup").classList.add("show");
+if (!workerUrl || !apiKey) {
+  document.getElementById("setup").classList.add("show");
+} else {
+  // Warm up the buffer in the background on launch
+  setTimeout(() => { if (visibleCards().length < 12) loadMore(); }, 1500);
+}
 </script>
 </body>
 </html>
