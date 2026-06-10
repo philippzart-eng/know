@@ -578,6 +578,88 @@ function normAnswer(s) {
     .replace(/[^a-z0-9]/g,"");
 }
 
+// Levenshtein distance with early exit
+function levDist(a, b, max) {
+  if (Math.abs(a.length - b.length) > max) return max + 1;
+  let prev = Array.from({ length: b.length + 1 }, (_, i) => i);
+  for (let i = 1; i <= a.length; i++) {
+    const cur = [i];
+    let rowMin = i;
+    for (let j = 1; j <= b.length; j++) {
+      cur[j] = Math.min(prev[j] + 1, cur[j-1] + 1, prev[j-1] + (a[i-1] === b[j-1] ? 0 : 1));
+      if (cur[j] < rowMin) rowMin = cur[j];
+    }
+    if (rowMin > max) return max + 1;
+    prev = cur;
+  }
+  return prev[b.length];
+}
+
+// Tolerant matching: typos allowed depending on length, leading articles ignored
+function fuzzyMatch(inputNorm, variant) {
+  const v = normAnswer(variant);
+  if (!v || !inputNorm) return false;
+  if (inputNorm === v) return true;
+
+  // Strip common leading articles from input ("dieschweiz" -> "schweiz")
+  const stripped = inputNorm.replace(/^(der|die|das|den|dem|ein|eine|the)/, "");
+  if (stripped === v) return true;
+
+  // Typo tolerance scaled by answer length
+  const tol = v.length >= 8 ? 2 : (v.length >= 5 ? 1 : 0);
+  if (tol > 0) {
+    if (levDist(inputNorm, v, tol) <= tol) return true;
+    if (stripped !== inputNorm && levDist(stripped, v, tol) <= tol) return true;
+  }
+  return false;
+}
+
+// Levenshtein distance (small strings)
+function editDist(a, b) {
+  if (Math.abs(a.length - b.length) > 2) return 99;
+  const m = a.length, n = b.length;
+  let prev = Array.from({length: n + 1}, (_, j) => j);
+  for (let i = 1; i <= m; i++) {
+    const cur = [i];
+    for (let j = 1; j <= n; j++) {
+      cur[j] = Math.min(prev[j] + 1, cur[j-1] + 1, prev[j-1] + (a[i-1] === b[j-1] ? 0 : 1));
+    }
+    prev = cur;
+  }
+  return prev[n];
+}
+
+// How many typos are tolerated, depending on word length
+function tolFor(len) { return len >= 9 ? 2 : len >= 5 ? 1 : 0; }
+
+const STOPWORDS = new Set(["der","die","das","den","dem","des","ein","eine","und","von","the","los","las","san","sankt","saint"]);
+
+// Significant words of a variant (for "George Washington" -> ["george","washington"])
+function sigWords(variant) {
+  return variant.toLowerCase()
+    .replace(/ä/g,"ae").replace(/ö/g,"oe").replace(/ü/g,"ue").replace(/ß/g,"ss")
+    .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+    .split(/[^a-z0-9]+/)
+    .filter(w => w.length >= 4 && !STOPWORDS.has(w));
+}
+
+// Fuzzy check: input vs one answer variant
+function fuzzyMatch(normInput, variant) {
+  if (normInput.length < 3) return false;
+  const normVar = normAnswer(variant);
+  // 1) whole answer, with typo tolerance
+  if (normInput === normVar) return true;
+  if (editDist(normInput, normVar) <= tolFor(normVar.length)) return true;
+  // 2) significant single word of a multi-word answer
+  const words = sigWords(variant);
+  if (words.length >= 2 || (words.length === 1 && words[0] !== normVar)) {
+    for (const w of words) {
+      if (normInput === w || editDist(normInput, w) <= tolFor(w.length)) return true;
+    }
+  }
+  return false;
+}
+
 function makeListQuizEl(qz, idx) {
   if (!qz.found) qz.found = [];
   const el = document.createElement("div");
@@ -620,19 +702,20 @@ function makeListQuizEl(qz, idx) {
 
   input.addEventListener("input", () => {
     const val = normAnswer(input.value);
-    if (!val) return;
-    qz.answers.forEach((ans, ai) => {
-      if (qz.found.includes(ai)) return;
-      const variants = Array.isArray(ans) ? ans : [ans];
-      if (variants.some(v => normAnswer(v) === val)) {
+    if (!val || val.length < 3) return;
+    for (let ai = 0; ai < qz.answers.length; ai++) {
+      if (qz.found.includes(ai)) continue;
+      const variants = Array.isArray(qz.answers[ai]) ? qz.answers[ai] : [qz.answers[ai]];
+      if (variants.some(v => fuzzyMatch(val, v))) {
         qz.found.push(ai);
         quizScore.right++;
         input.value = "";
         saveState();
         renderSlots();
         if (qz.found.length >= qz.answers.length) showToast("🏆 Alle gefunden!");
+        break; // one input matches one answer
       }
-    });
+    }
   });
 
   revealBtn.onclick = () => {
