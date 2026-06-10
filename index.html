@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="know.">
+<link rel="apple-touch-icon" href="know-icon.png">
 <meta name="theme-color" content="#0a0a0f">
 <title>know.</title>
 <style>
@@ -12,10 +14,13 @@
   html, body { height:100%; background:#0a0a0f; color:#f0f0f5; font-family:-apple-system,system-ui,sans-serif; overflow:hidden; overscroll-behavior:none; }
 
   /* HEADER */
-  #header { position:fixed; top:0; left:0; right:0; z-index:100; padding:calc(env(safe-area-inset-top) + 12px) 16px 10px; background:linear-gradient(to bottom, rgba(10,10,15,0.97) 60%, transparent); display:flex; align-items:center; gap:12px; }
+  #header { position:fixed; top:0; left:0; right:0; z-index:100; padding:calc(env(safe-area-inset-top) + 10px) 16px 8px; background:rgba(10,10,15,0.97); display:flex; flex-direction:column; gap:8px; }
+  .header-row { display:flex; align-items:center; justify-content:space-between; }
+  .header-icons { display:flex; align-items:center; gap:2px; }
+  .header-icons button { background:none; border:none; color:rgba(240,240,245,0.45); font-size:16px; cursor:pointer; padding:6px 8px; }
   #logo { font-weight:800; font-size:20px; letter-spacing:-0.5px; flex-shrink:0; }
   #logo span { color:#7eb8d4; }
-  #settings-btn { margin-left:auto; background:none; border:none; color:rgba(240,240,245,0.4); font-size:18px; cursor:pointer; flex-shrink:0; padding:4px; }
+  #settings-btn { background:none; border:none; color:rgba(240,240,245,0.45); font-size:16px; cursor:pointer; padding:6px 8px; }
   #filter-bar { display:flex; gap:6px; overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch; }
   #filter-bar::-webkit-scrollbar { display:none; }
   .chip { flex-shrink:0; padding:4px 10px; border-radius:20px; border:1px solid rgba(255,255,255,0.12); background:transparent; color:rgba(240,240,245,0.5); font-size:11px; font-weight:600; cursor:pointer; white-space:nowrap; }
@@ -70,16 +75,15 @@
   .quiz-opt.wrong { background:rgba(232,124,154,0.25); border-color:#e87c9a; }
   .quiz-opt:disabled { cursor:default; opacity:0.85; }
   .quiz-score { font-size:12px; color:rgba(240,240,245,0.45); margin-bottom:12px; }
-  #bm-btn { background:none; border:none; color:rgba(240,240,245,0.4); font-size:17px; cursor:pointer; flex-shrink:0; padding:4px; }
-  #bm-btn.active { color:#e8a87c; }
+  #bm-btn.active { color:#e8a87c !important; }
 
   /* QUIZ OPTIONS BAR */
-  #quiz-bar { position:fixed; left:0; right:0; z-index:99; display:none; flex-direction:column; gap:6px; padding:6px 16px 8px; background:rgba(10,10,15,0.92); backdrop-filter:blur(8px); }
+  #quiz-bar { position:fixed; left:0; right:0; z-index:99; display:none; flex-direction:column; gap:5px; padding:5px 16px 8px; background:rgba(10,10,15,0.92); backdrop-filter:blur(8px); border-bottom:1px solid rgba(255,255,255,0.05); }
   #quiz-bar.show { display:flex; }
-  .quiz-bar-row { display:flex; gap:8px; }
-  #quiz-topic { flex:2; background:#1c1c27; border:1px solid rgba(255,255,255,0.12); border-radius:10px; padding:8px 10px; color:#f0f0f5; font-size:13px; font-family:inherit; outline:none; min-width:0; }
+  .quiz-bar-row { display:flex; gap:6px; }
+  #quiz-topic { flex:2; background:#1c1c27; border:1px solid rgba(255,255,255,0.1); border-radius:9px; padding:7px 10px; color:#f0f0f5; font-size:12px; font-family:inherit; outline:none; min-width:0; }
   #quiz-topic:focus { border-color:#f0d97e; }
-  .quiz-select { flex:1; background:#1c1c27; border:1px solid rgba(255,255,255,0.12); border-radius:10px; padding:8px 10px; color:#f0f0f5; font-size:13px; font-family:inherit; outline:none; -webkit-appearance:none; appearance:none; }
+  .quiz-select { flex:1; background:#1c1c27; border:1px solid rgba(255,255,255,0.1); border-radius:9px; padding:7px 8px; color:#f0f0f5; font-size:12px; font-family:inherit; outline:none; -webkit-appearance:none; appearance:none; min-width:0; }
 
   /* LIST QUIZ */
   .lq-input-row { display:flex; gap:8px; margin-bottom:12px; }
@@ -139,12 +143,16 @@
 
 <!-- Header -->
 <div id="header">
-  <div id="logo">know<span>.</span></div>
+  <div class="header-row">
+    <div id="logo">know<span>.</span></div>
+    <div class="header-icons">
+      <button id="refresh-btn" onclick="refreshFeed()">↻</button>
+      <button id="bm-btn" onclick="toggleSaved()">🔖</button>
+      <button id="src-btn" onclick="openSource()">＋</button>
+      <button id="settings-btn" onclick="openSetup()">⚙︎</button>
+    </div>
+  </div>
   <div id="filter-bar"></div>
-  <button id="refresh-btn" style="background:none;border:none;color:rgba(240,240,245,0.4);font-size:17px;cursor:pointer;flex-shrink:0;padding:4px" onclick="refreshFeed()">↻</button>
-  <button id="bm-btn" onclick="toggleSaved()">🔖</button>
-  <button id="src-btn" style="background:none;border:none;color:rgba(240,240,245,0.4);font-size:19px;cursor:pointer;flex-shrink:0;padding:4px" onclick="openSource()">＋</button>
-  <button id="settings-btn" onclick="openSetup()">⚙︎</button>
 </div>
 
 <!-- Quiz options (visible in quiz mode) -->
@@ -179,7 +187,7 @@
       <option value="20">20</option>
       <option value="30">30</option>
     </select>
-    <button id="quiz-go" onclick="generateNow()" style="flex-shrink:0;padding:8px 14px;border-radius:10px;border:none;background:#f0d97e;color:#0a0a0f;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit">Los</button>
+    <button id="quiz-go" onclick="generateNow()" style="flex-shrink:0;padding:7px 14px;border-radius:9px;border:none;background:#f0d97e;color:#0a0a0f;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit">Los</button>
   </div>
 </div>
 
@@ -283,6 +291,10 @@ const SEED_CARDS = [
 
 // ============ STATE ============
 let workerUrl = localStorage.getItem(LS.worker) || "https://spring-water-f9f9.philipp-zart.workers.dev";
+if (workerUrl.startsWith("http://")) {
+  workerUrl = "https://" + workerUrl.slice(7);
+  try { localStorage.setItem(LS.worker, workerUrl); } catch {}
+}
 let apiKey = localStorage.getItem(LS.apikey) || "";
 let cards = loadJSON(LS.cards) || SEED_CARDS.slice();
 let likes = loadJSON(LS.likes) || {};
@@ -394,9 +406,16 @@ function openSetup() {
   document.getElementById("api-key").value = apiKey;
   document.getElementById("setup").classList.add("show");
 }
+function cleanWorkerUrl(v) {
+  v = v.trim().replace(/\/$/, "");
+  if (v.startsWith("http://")) v = "https://" + v.slice(7); // mixed content fix
+  return v;
+}
+
 async function testConnection() {
   const out = document.getElementById("test-result");
-  const v = document.getElementById("worker-url").value.trim().replace(/\/$/, "");
+  const v = cleanWorkerUrl(document.getElementById("worker-url").value);
+  document.getElementById("worker-url").value = v;
   const k = document.getElementById("api-key").value.trim();
   if (!v || !k) { out.style.color = "#e87c9a"; out.textContent = "Bitte erst URL und Key eintragen"; return; }
   out.style.color = "#7eb8d4"; out.textContent = "Teste...";
@@ -425,12 +444,13 @@ async function testConnection() {
 function saveSetup() {
   const err = document.getElementById("setup-error");
   err.textContent = "";
-  const v = document.getElementById("worker-url").value.trim();
+  const v = cleanWorkerUrl(document.getElementById("worker-url").value);
+  document.getElementById("worker-url").value = v;
   const k = document.getElementById("api-key").value.trim();
-  if (!v.startsWith("http")) { err.textContent = "Bitte gueltige Worker-URL eingeben (beginnt mit https://)"; return; }
+  if (!v.startsWith("https://")) { err.textContent = "Bitte gueltige Worker-URL eingeben (beginnt mit https://)"; return; }
   if (!k) { err.textContent = "Bitte deinen Anthropic API-Key eingeben"; return; }
   if (!k.startsWith("sk-")) { err.textContent = "Der API-Key sieht ungewoehnlich aus (beginnt normalerweise mit sk-ant-). Trotzdem gespeichert."; }
-  workerUrl = v.replace(/\/$/, "");
+  workerUrl = v;
   apiKey = k;
   localStorage.setItem(LS.worker, workerUrl);
   localStorage.setItem(LS.apikey, apiKey);
