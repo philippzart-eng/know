@@ -133,12 +133,15 @@
   <p class="setup-hint">Worker-URL und API-Key werden nur lokal auf deinem Geraet gespeichert (localStorage) — gleiche Architektur wie deine Coaching-App.</p>
   <div id="setup-error" style="font-size:13px;color:#e87c9a;min-height:18px"></div>
   <button onclick="saveSetup()">Los geht's</button>
+  <button onclick="testConnection()" style="background:transparent;border:1px solid rgba(255,255,255,0.15);color:rgba(240,240,245,0.7)">Verbindung testen</button>
+  <div id="test-result" style="font-size:13px;min-height:18px"></div>
 </div>
 
 <!-- Header -->
 <div id="header">
   <div id="logo">know<span>.</span></div>
   <div id="filter-bar"></div>
+  <button id="refresh-btn" style="background:none;border:none;color:rgba(240,240,245,0.4);font-size:17px;cursor:pointer;flex-shrink:0;padding:4px" onclick="refreshFeed()">↻</button>
   <button id="bm-btn" onclick="toggleSaved()">🔖</button>
   <button id="src-btn" style="background:none;border:none;color:rgba(240,240,245,0.4);font-size:19px;cursor:pointer;flex-shrink:0;padding:4px" onclick="openSource()">＋</button>
   <button id="settings-btn" onclick="openSetup()">⚙︎</button>
@@ -391,6 +394,34 @@ function openSetup() {
   document.getElementById("api-key").value = apiKey;
   document.getElementById("setup").classList.add("show");
 }
+async function testConnection() {
+  const out = document.getElementById("test-result");
+  const v = document.getElementById("worker-url").value.trim().replace(/\/$/, "");
+  const k = document.getElementById("api-key").value.trim();
+  if (!v || !k) { out.style.color = "#e87c9a"; out.textContent = "Bitte erst URL und Key eintragen"; return; }
+  out.style.color = "#7eb8d4"; out.textContent = "Teste...";
+  const t0 = Date.now();
+  try {
+    const res = await fetch(v, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "x-api-key": k },
+      body: JSON.stringify({ model: MODELS[0], max_tokens: 10, messages: [{ role: "user", content: "Sag nur: OK" }] })
+    });
+    const ms = Date.now() - t0;
+    if (!res.ok) {
+      const body = await res.text();
+      out.style.color = "#e87c9a";
+      out.textContent = `HTTP ${res.status} nach ${ms}ms: ${body.slice(0, 120)}`;
+      return;
+    }
+    out.style.color = "#7ecfb0";
+    out.textContent = `✓ Verbindung OK (${ms}ms)`;
+  } catch (e) {
+    out.style.color = "#e87c9a";
+    out.textContent = `✗ ${e.message || e} — Netzwerk, Werbeblocker oder Timeout?`;
+  }
+}
+
 function saveSetup() {
   const err = document.getElementById("setup-error");
   err.textContent = "";
@@ -817,11 +848,20 @@ function maybePrefetch() {
   if (visibleCards().length < 4) loadMore();
 }
 
-async function loadMore() {
+function refreshFeed() {
+  if (generating) return;
+  if (filter === "__saved") { showToast("In der Merkliste gibt es nichts zu aktualisieren"); return; }
+  if (filter === "Quiz") return generateNow();
+  const btn = document.getElementById("refresh-btn");
+  btn.style.color = "#7eb8d4";
+  loadMore(true).finally(() => { btn.style.color = ""; });
+}
+
+async function loadMore(prepend) {
   if (generating) return;
   if (!workerUrl || !apiKey) { openSetup(); return; }
   if (filter === "__saved") return;
-  if (filter === "Quiz") return loadMoreQuizzes();
+  if (filter === "Quiz") return loadMoreQuizzes(prepend);
   generating = true;
   updateEndCard();
 
@@ -861,9 +901,17 @@ Regeln:
       });
 
     if (fresh.length) {
-      cards = cards.concat(fresh);
-      saveState();
-      appendCards(fresh);
+      if (prepend) {
+        cards = fresh.concat(cards);
+        saveState();
+        buildFeed();
+        document.getElementById("feed").scrollTop = 0;
+        showToast(`✨ ${fresh.length} frische Themen`);
+      } else {
+        cards = cards.concat(fresh);
+        saveState();
+        appendCards(fresh);
+      }
     } else {
       showToast("Keine neuen Themen erhalten");
     }
@@ -919,22 +967,51 @@ Regeln:
 - q: kurze, praezise Frage auf Deutsch`;
 
   try {
-    const tokenBudget = quizOpts.type === "list" ? 2000 : Math.min(200 + mcCount * 110, 4000);
-    const raw = await callAI(prompt, tokenBudget);
-    const start = raw.indexOf("[");
-    const end = raw.lastIndexOf("]");
-    if (start === -1 || end <= start) throw new Error("Kein JSON in Antwort");
-    const parsed = JSON.parse(raw.slice(start, end + 1));
+    // Generate in chunks of max 10 — avoids iOS Safari fetch timeouts on large batches
+    let parsed = [];
+    if (quizOpts.type === "list") {
+      const raw = await callAI(prompt, 2000);
+      const s0 = raw.indexOf("["), e0 = raw.lastIndexOf("]");
+      if (s0 === -1 || e0 <= s0) throw new Error("Kein JSON in Antwort");
+      parsed = JSON.parse(raw.slice(s0, e0 + 1));
+    } else {
+      let remaining = mcCount;
+      while (remaining > 0) {
+        const batch = Math.min(remaining, 10);
+        const batchPrompt = prompt.replace(`genau ${mcCount} Multiple-Choice`, `genau ${batch} Multiple-Choice`);
+        const raw = await callAI(batchPrompt, Math.min(200 + batch * 110, 1500));
+        const s0 = raw.indexOf("["), e0 = raw.lastIndexOf("]");
+        if (s0 !== -1 && e0 > s0) {
+          try {
+            const part = JSON.parse(raw.slice(s0, e0 + 1));
+            if (Array.isArray(part)) {
+              parsed = parsed.concat(part);
+              // feed seen list so next chunk avoids duplicates within this run
+              part.forEach(x => { if (x && x.q) seenQuiz.add(x.q); });
+            }
+          } catch {}
+        }
+        remaining -= batch;
+      }
+      if (!parsed.length) throw new Error("Kein JSON in Antwort");
+    }
 
     const fresh = quizOpts.type === "list"
       ? (Array.isArray(parsed) ? parsed : [])
           .filter(x => x && x.q && Array.isArray(x.answers) && x.answers.length >= 3 && !seenQuiz.has(x.q))
           .map(x => { seenQuiz.add(x.q); return { type: "list", cat: x.cat || quizOpts.cat, q: x.q, answers: x.answers.map(a => Array.isArray(a) ? a : [a]), found: [], revealed: false }; })
-      : (Array.isArray(parsed) ? parsed : [])
-          .filter(x => x && x.q && Array.isArray(x.options) && x.options.length === 4
-            && Number.isInteger(x.correct) && x.correct >= 0 && x.correct <= 3
-            && !seenQuiz.has(x.q))
-          .map(x => { seenQuiz.add(x.q); return { type: "mc", cat: x.cat || quizOpts.cat, q: x.q, options: x.options, correct: x.correct, answered: null }; });
+      : (() => {
+          const dedup = new Set();
+          return (Array.isArray(parsed) ? parsed : [])
+            .filter(x => {
+              if (!(x && x.q && Array.isArray(x.options) && x.options.length === 4
+                && Number.isInteger(x.correct) && x.correct >= 0 && x.correct <= 3)) return false;
+              if (dedup.has(x.q) || quizzes.some(z => z.q === x.q)) return false;
+              dedup.add(x.q);
+              return true;
+            })
+            .map(x => { seenQuiz.add(x.q); return { type: "mc", cat: x.cat || quizOpts.cat, q: x.q, options: x.options, correct: x.correct, answered: null }; });
+        })();
 
     if (fresh.length) {
       if (prepend) {
