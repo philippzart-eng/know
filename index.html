@@ -34,13 +34,13 @@
   .card { height:100dvh; scroll-snap-align:start; scroll-snap-stop:always; position:relative; display:flex; flex-direction:column; justify-content:flex-end; }
   .card-bg { position:absolute; inset:0; }
   .card-grad { position:absolute; inset:0; background:linear-gradient(to bottom, transparent 20%, rgba(10,10,15,0.75) 60%, rgba(10,10,15,0.98) 100%); }
-  .card-content { position:relative; z-index:2; padding:24px 20px calc(env(safe-area-inset-bottom) + 28px); }
+  .card-content { position:relative; z-index:2; padding:24px 20px calc(env(safe-area-inset-bottom) + 86px); }
   .badge { display:inline-block; color:#0a0a0f; font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; padding:3px 10px; border-radius:20px; margin-bottom:10px; }
   .emoji { font-size:50px; line-height:1; margin-bottom:10px; }
   .title { font-weight:700; font-size:21px; line-height:1.25; margin-bottom:10px; letter-spacing:-0.3px; }
   .fact { font-size:14px; line-height:1.65; color:rgba(240,240,245,0.85); margin-bottom:16px; }
   .actions { display:flex; gap:16px; margin-bottom:12px; }
-  .action-btn { background:none; border:none; cursor:pointer; color:rgba(240,240,245,0.5); display:flex; align-items:center; gap:5px; font-size:13px; font-family:inherit; }
+  .action-btn { background:none; border:none; cursor:pointer; color:rgba(240,240,245,0.5); display:flex; align-items:center; gap:5px; font-size:13px; font-family:inherit; text-decoration:none; }
   .action-btn.on-like { color:#e87c9a; }
   .action-btn.on-bm { color:#e8a87c; }
   .dive-btn { width:100%; padding:12px; border-radius:12px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.06); color:#f0f0f5; font-size:13px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; font-family:inherit; }
@@ -114,6 +114,61 @@
   .chapter-item { padding:11px 14px; border-radius:10px; border:1px solid rgba(255,255,255,0.08); background:#1c1c27; color:rgba(240,240,245,0.85); font-size:13px; text-align:left; cursor:pointer; font-family:inherit; }
   #src-status { font-size:13px; color:#7eb8d4; min-height:18px; margin-top:10px; }
 
+  /* BOTTOM TAB BAR */
+  #tabbar { position:fixed; bottom:0; left:0; right:0; z-index:120; display:flex; background:rgba(16,16,22,0.97); backdrop-filter:blur(10px); border-top:1px solid rgba(255,255,255,0.07); padding:6px 8px calc(env(safe-area-inset-bottom) + 6px); }
+  .tab { flex:1; background:none; border:none; color:rgba(240,240,245,0.4); font-size:10px; font-weight:600; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:2px; padding:4px 0; font-family:inherit; }
+  .tab .ti { font-size:20px; line-height:1; }
+  .tab.active { color:#7eb8d4; }
+
+  /* PATHS */
+  #feed.no-snap { scroll-snap-type:none; }
+  .paths-wrap { padding:8px 16px calc(env(safe-area-inset-bottom) + 90px); max-width:600px; margin:0 auto; }
+  .path-create { background:#13131a; border:1px solid rgba(255,255,255,0.08); border-radius:16px; padding:14px; margin-bottom:14px; }
+  .path-create h3 { font-size:15px; font-weight:700; margin-bottom:10px; }
+  .pc-row { display:flex; gap:8px; }
+  .pc-input { flex:1; background:#1c1c27; border:1px solid rgba(255,255,255,0.1); border-radius:10px; padding:10px 12px; color:#f0f0f5; font-size:15px; outline:none; font-family:inherit; min-width:0; }
+  .pc-input:focus { border-color:#7eb8d4; }
+  .pc-select { background:#1c1c27; border:1px solid rgba(255,255,255,0.1); border-radius:10px; padding:10px 8px; color:#f0f0f5; font-size:13px; font-family:inherit; outline:none; }
+  .pc-btn { padding:10px 16px; border-radius:10px; border:none; background:#7eb8d4; color:#0a0a0f; font-size:13px; font-weight:700; cursor:pointer; font-family:inherit; flex-shrink:0; }
+  .path-card { background:#13131a; border:1px solid rgba(255,255,255,0.08); border-radius:16px; padding:14px; margin-bottom:10px; cursor:pointer; position:relative; }
+  .path-card h4 { font-size:15px; font-weight:700; margin-bottom:4px; padding-right:28px; }
+  .path-meta { font-size:12px; color:rgba(240,240,245,0.45); margin-bottom:8px; }
+  .path-progress { height:5px; background:rgba(255,255,255,0.07); border-radius:3px; overflow:hidden; }
+  .path-progress > div { height:100%; background:#7eb8d4; border-radius:3px; transition:width 0.3s; }
+  .path-del { position:absolute; top:10px; right:10px; background:none; border:none; color:rgba(240,240,245,0.3); font-size:15px; cursor:pointer; padding:4px; }
+  .back-btn { background:none; border:none; color:#7eb8d4; font-size:14px; cursor:pointer; padding:8px 0; font-family:inherit; margin-bottom:6px; }
+  #catalog-search { width:100%; background:#1c1c27; border:1px solid rgba(255,255,255,0.1); border-radius:10px; padding:10px 12px; color:#f0f0f5; font-size:15px; outline:none; font-family:inherit; margin-bottom:12px; }
+  #catalog-search:focus { border-color:#7eb8d4; }
+  .cat-group { margin-bottom:10px; border:1px solid rgba(255,255,255,0.06); border-radius:14px; overflow:hidden; background:#101016; }
+  .cat-sec-header { display:flex; align-items:center; gap:8px; padding:13px 14px; cursor:pointer; user-select:none; }
+  .cat-sec-header .chev { margin-left:auto; color:rgba(240,240,245,0.35); font-size:13px; transition:transform 0.2s; }
+  .cat-group.open .cat-sec-header .chev { transform:rotate(90deg); }
+  .cat-sec-body { display:none; padding:0 14px 12px; }
+  .cat-group.open .cat-sec-body { display:block; }
+  .cat-sec-count { font-size:11px; color:rgba(240,240,245,0.35); font-weight:500; }
+  .cat-group-title { font-size:13px; font-weight:700; letter-spacing:0.5px; color:rgba(240,240,245,0.5); margin-bottom:9px; display:flex; align-items:center; gap:7px; }
+  .topic-chips { display:flex; flex-wrap:wrap; gap:7px; }
+  .topic-chip { padding:8px 13px; border-radius:18px; border:1px solid rgba(255,255,255,0.1); background:#13131a; color:rgba(240,240,245,0.85); font-size:13px; cursor:pointer; font-family:inherit; transition:all 0.15s; }
+  .topic-chip:active { background:#7eb8d4; color:#0a0a0f; }
+  .catalog-empty { text-align:center; color:rgba(240,240,245,0.4); font-size:14px; padding:30px 20px; }
+  .chapter-row { display:flex; align-items:center; gap:12px; background:#13131a; border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:13px 14px; margin-bottom:8px; cursor:pointer; }
+  .chapter-num { width:30px; height:30px; border-radius:50%; background:#1c1c27; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700; flex-shrink:0; color:rgba(240,240,245,0.6); }
+  .chapter-row.done .chapter-num { background:rgba(126,207,176,0.2); color:#7ecfb0; }
+  .chapter-title { font-size:14px; font-weight:600; }
+  .chapter-teaser { font-size:12px; color:rgba(240,240,245,0.45); margin-top:2px; }
+
+  /* READER */
+  #reader { position:fixed; inset:0; z-index:380; background:#0a0a0f; display:none; flex-direction:column; }
+  #reader.show { display:flex; }
+  .reader-head { padding:calc(env(safe-area-inset-top) + 12px) 18px 12px; border-bottom:1px solid rgba(255,255,255,0.07); display:flex; justify-content:space-between; align-items:center; flex-shrink:0; gap:10px; }
+  .reader-body { flex:1; overflow-y:auto; padding:20px 20px calc(env(safe-area-inset-bottom) + 30px); -webkit-overflow-scrolling:touch; max-width:640px; margin:0 auto; width:100%; }
+  .reader-body h2 { font-size:21px; font-weight:800; margin-bottom:14px; letter-spacing:-0.3px; }
+  .reader-body p { font-size:15px; line-height:1.75; color:rgba(240,240,245,0.88); margin-bottom:14px; }
+  .keypoints { background:rgba(126,184,212,0.08); border:1px solid rgba(126,184,212,0.2); border-radius:14px; padding:14px 16px; margin:18px 0; }
+  .keypoints h5 { font-size:12px; letter-spacing:1px; text-transform:uppercase; color:#7eb8d4; margin-bottom:8px; }
+  .keypoints li { font-size:13.5px; line-height:1.6; margin-left:18px; margin-bottom:6px; color:rgba(240,240,245,0.85); }
+  .reader-done { width:100%; padding:14px; border-radius:14px; border:none; background:#7ecfb0; color:#0a0a0f; font-size:15px; font-weight:700; cursor:pointer; font-family:inherit; margin-top:10px; }
+
   /* TOAST */
   #toast { position:fixed; bottom:calc(env(safe-area-inset-bottom) + 24px); left:50%; transform:translateX(-50%) translateY(20px); background:#1c1c27; border:1px solid rgba(255,255,255,0.1); padding:10px 18px; border-radius:20px; font-size:13px; z-index:500; opacity:0; transition:all 0.3s; white-space:nowrap; pointer-events:none; max-width:90vw; overflow:hidden; text-overflow:ellipsis; }
   #toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
@@ -149,7 +204,6 @@
     <div id="logo">know<span>.</span></div>
     <div class="header-icons">
       <button id="refresh-btn" onclick="refreshFeed()">↻</button>
-      <button id="bm-btn" onclick="toggleSaved()">🔖</button>
       <button id="src-btn" onclick="openSource()">＋</button>
       <button id="settings-btn" onclick="openSetup()">⚙︎</button>
     </div>
@@ -176,7 +230,8 @@
     </select>
   </div>
   <div class="quiz-bar-row">
-    <input id="quiz-topic" type="text" placeholder="Eigenes Thema (optional)..." autocomplete="off" onchange="setQuizOpts()" onblur="setQuizOpts()">
+    <input id="quiz-topic" type="text" placeholder="Eigenes Thema..." autocomplete="off" onchange="setQuizOpts()" onblur="setQuizOpts()">
+    <button id="quiz-cat-pick" onclick="openTopicPicker()" style="flex-shrink:0;padding:7px 10px;border-radius:9px;border:1px solid rgba(255,255,255,0.12);background:#1c1c27;color:rgba(240,240,245,0.7);font-size:12px;cursor:pointer;font-family:inherit">📚</button>
     <select class="quiz-select" id="quiz-diff" onchange="setQuizOpts()" style="flex:1">
       <option value="einfach">Einfach</option>
       <option value="mittel">Mittel</option>
@@ -231,6 +286,35 @@
   </div>
 </div>
 
+<!-- Reader (Wissenspfad-Kapitel) -->
+<div id="reader">
+  <div class="reader-head">
+    <button class="back-btn" style="margin:0" onclick="closeReader()">‹ Zurueck</button>
+    <div id="reader-path-title" style="font-size:12px;color:rgba(240,240,245,0.45);text-align:right;flex:1"></div>
+  </div>
+  <div class="reader-body" id="reader-body"></div>
+</div>
+
+<!-- Topic picker (catalog) for quizzes -->
+<div id="topic-picker" onclick="if(event.target===this)closeTopicPicker()" style="position:fixed;inset:0;z-index:360;background:rgba(0,0,0,0.7);display:none;align-items:flex-end">
+  <div style="width:100%;background:#13131a;border-radius:20px 20px 0 0;border-top:1px solid rgba(255,255,255,0.08);padding:16px 16px calc(env(safe-area-inset-bottom) + 20px);max-height:80dvh;display:flex;flex-direction:column">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-shrink:0">
+      <div style="font-size:16px;font-weight:700">📚 Thema fuer Quiz waehlen</div>
+      <button onclick="closeTopicPicker()" style="background:none;border:none;color:rgba(240,240,245,0.5);font-size:20px;cursor:pointer">✕</button>
+    </div>
+    <input id="picker-search" type="text" placeholder="🔍 Thema suchen..." autocomplete="off" style="width:100%;background:#1c1c27;border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:10px 12px;color:#f0f0f5;font-size:15px;outline:none;font-family:inherit;margin-bottom:10px;flex-shrink:0">
+    <div id="picker-body" style="overflow-y:auto;flex:1"></div>
+  </div>
+</div>
+
+<!-- Bottom Tabs -->
+<div id="tabbar">
+  <button class="tab active" data-v="Alle" onclick="switchTab('feed')"><span class="ti">🗞️</span>Feed</button>
+  <button class="tab" data-v="__paths" onclick="switchTab('paths')"><span class="ti">🧭</span>Pfade</button>
+  <button class="tab" data-v="Quiz" onclick="switchTab('quiz')"><span class="ti">🏆</span>Quiz</button>
+  <button class="tab" data-v="__saved" onclick="switchTab('saved')"><span class="ti">🔖</span>Merkliste</button>
+</div>
+
 <div id="toast"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
@@ -268,25 +352,25 @@ const SEED_CARDS = [
   { cat:"Geschichte", emoji:"⚔️", title:"Das Rätsel von Roms Untergang",
     fact:"Das Weströmische Reich fiel 476 n. Chr. — aber nicht durch eine einzige Katastrophe. Historiker streiten bis heute: War es Migration, Klimawandel oder wirtschaftlicher Kollaps? Wahrscheinlich alles zusammen.",
     quickQ:["Wer waren die Vandalen?","Was überlebte von Rom?","Wann fiel Ostrom?"] },
-  { cat:"Wissenschaft", emoji:"🌌", title:"Dunkle Materie: Was wir nicht sehen",
+  { cat:"Wissenschaft", emoji:"🌌", wikiTopics:["Dunkle Materie"], title:"Dunkle Materie: Was wir nicht sehen",
     fact:"27% des Universums besteht aus Dunkler Materie — Stoff, der nicht leuchtet, nichts reflektiert, aber Gravitation ausübt. Ohne sie würden Galaxien auseinanderreißen. Wir haben noch nie ein Teilchen davon direkt nachgewiesen.",
     quickQ:["Was ist Dunkle Energie?","Wie messen wir sie?","Gibt es Alternativen?"] },
-  { cat:"Psychologie", emoji:"🧠", title:"Der Dunning-Kruger-Effekt",
+  { cat:"Psychologie", emoji:"🧠", wikiTopics:["Dunning-Kruger-Effekt"], title:"Der Dunning-Kruger-Effekt",
     fact:"Menschen mit wenig Wissen überschätzen sich massiv — weil ihnen das Wissen fehlt, ihre eigene Inkompetenz zu erkennen. Experten zweifeln mehr, weil sie die Komplexität sehen.",
     quickQ:["Wie vermeide ich das?","Wer hat es entdeckt?","Gibt es Gegenbeispiele?"] },
-  { cat:"Technologie", emoji:"⚡", title:"Wie KI-Modelle wirklich denken",
+  { cat:"Technologie", emoji:"⚡", wikiTopics:["Transformer (Maschinelles Lernen)","Attention (Maschinelles Lernen)"], title:"Wie KI-Modelle wirklich denken",
     fact:"ChatGPT, Claude, Gemini basieren alle auf der Transformer-Architektur von 2017. Das Kernprinzip: Attention — das Modell lernt, welche Wörter für die Vorhersage des nächsten wichtig sind.",
     quickQ:["Was sind Parameter?","Wie wird trainiert?","Was kommt nach Transformer?"] },
-  { cat:"Allgemein", emoji:"🐙", title:"Oktopusse: Intelligenz neu gedacht",
+  { cat:"Allgemein", emoji:"🐙", wikiTopics:["Kraken","Echte Kraken"], title:"Oktopusse: Intelligenz neu gedacht",
     fact:"Ein Oktopus hat 500 Millionen Neuronen — ähnlich wie ein Hund. Aber 2/3 davon sitzen in seinen Armen, nicht im Gehirn. Jeder Arm denkt teilweise selbst.",
     quickQ:["Wie lange leben sie?","Können sie lernen?","Was sind Kopffüßer?"] },
   { cat:"Geschichte", emoji:"🧭", title:"Die Seidenstraße verband Welten",
     fact:"Die Seidenstraße war ein Netzwerk von Routen zwischen China und dem Mittelmeer. Sie transportierte nicht nur Seide, sondern auch Ideen, Religionen und Technologie über Kontinente hinweg.",
     quickQ:["Wann existierte sie?","Wer kontrollierte sie?","Was ist die neue Seidenstraße?"] },
-  { cat:"Wissenschaft", emoji:"🦠", title:"Das Mikrobiom: Du bist nicht allein",
+  { cat:"Wissenschaft", emoji:"🦠", wikiTopics:["Mikrobiom","Darmflora"], title:"Das Mikrobiom: Du bist nicht allein",
     fact:"In deinem Körper leben 38 Billionen Bakterien — mehr als deine eigenen Körperzellen. Sie beeinflussen deine Stimmung, dein Immunsystem und sogar deine Entscheidungen.",
     quickQ:["Was schädigt das Mikrobiom?","Wie verbessere ich es?","Probiotika sinnvoll?"] },
-  { cat:"Psychologie", emoji:"💭", title:"Kognitive Verzerrungen im Alltag",
+  { cat:"Psychologie", emoji:"💭", wikiTopics:["Kognitive Verzerrung","Bestaetigungsfehler"], title:"Kognitive Verzerrungen im Alltag",
     fact:"Dein Gehirn trifft täglich tausende Entscheidungen auf Autopilot. Der Bestätigungsfehler lässt dich nur Infos wahrnehmen, die deine Meinung stützen. Bewusstsein hilft — eliminiert Bias aber nicht.",
     quickQ:["Welche Bias sind häufig?","Wie trainiere ich dagegen?","Was sagt Kahneman?"] },
 ];
@@ -308,6 +392,28 @@ let quizzes = loadJSON(LS.quizzes) || [];
 let quizScore = loadJSON(LS.quizscore) || { right: 0, wrong: 0 };
 let seenQuiz = new Set(loadJSON(LS.seenquiz) || []);
 let viewedSet = new Set(loadJSON(LS.viewed) || []);
+let lastFeedCat = "Alle";
+let paths = loadJSON("know_paths") || [];
+let pathState = { mode: "list", pathId: null, chapterIdx: null };
+
+function savePaths() { try { localStorage.setItem("know_paths", JSON.stringify(paths)); } catch {} }
+
+function switchTab(tab) {
+  if (filter !== "Quiz" && filter !== "__saved" && filter !== "__paths") lastFeedCat = filter;
+  if (tab === "feed") filter = lastFeedCat;
+  else if (tab === "quiz") filter = "Quiz";
+  else if (tab === "saved") filter = "__saved";
+  else if (tab === "paths") { filter = "__paths"; pathState = { mode: "list", pathId: null, chapterIdx: null }; }
+  document.querySelectorAll("#tabbar .tab").forEach(t => {
+    const v = t.dataset.v;
+    const active = (tab === "feed" && v === "Alle") || v === filter;
+    t.classList.toggle("active", active);
+  });
+  renderFilterBar();
+  buildFeed();
+  document.getElementById("feed").scrollTop = 0;
+  if (tab === "feed") maybePrefetch();
+}
 let quizOpts = Object.assign(
   { type: "mc", cat: "Gemischt", diff: "mittel", count: 5, topic: "" },
   loadJSON("know_quizopts") || {});
@@ -478,34 +584,30 @@ function showToast(msg) {
 function visibleCards() {
   if (filter === "__saved") return cards.filter(c => bookmarks[c.title]);
   if (filter === "Quiz") return quizzes;
+  if (filter === "__paths") return [];
   return filter === "Alle" ? cards : cards.filter(c => c.cat === filter);
 }
 
-function toggleSaved() {
-  filter = filter === "__saved" ? "Alle" : "__saved";
-  document.getElementById("bm-btn").classList.toggle("active", filter === "__saved");
-  renderFilterBar();
-  buildFeed();
-  document.getElementById("feed").scrollTop = 0;
-}
+
 
 function renderFilterBar() {
   const bar = document.getElementById("filter-bar");
   bar.innerHTML = "";
-  const allChips = CATS.concat(["Quiz"]);
-  allChips.forEach(cat => {
+  const special = ["Quiz", "__saved", "__paths"].includes(filter);
+  bar.style.display = special ? "none" : "flex";
+  if (special) return;
+  CATS.forEach(cat => {
     const b = document.createElement("button");
     b.className = "chip" + (filter === cat ? " active" : "");
     b.textContent = cat;
-    const chipColor = cat === "Quiz" ? "#f0d97e" : CAT_COLORS[cat];
     if (cat !== "Alle") {
-      b.style.color = filter === cat ? "#0a0a0f" : chipColor;
-      b.style.borderColor = filter === cat ? "transparent" : chipColor + "55";
+      b.style.color = filter === cat ? "#0a0a0f" : CAT_COLORS[cat];
+      b.style.borderColor = filter === cat ? "transparent" : CAT_COLORS[cat] + "55";
     }
-    if (filter === cat) b.style.background = cat === "Alle" ? "#f0f0f5" : chipColor;
+    if (filter === cat) b.style.background = cat === "Alle" ? "#f0f0f5" : CAT_COLORS[cat];
     b.onclick = () => {
       filter = cat;
-      document.getElementById("bm-btn").classList.remove("active");
+      lastFeedCat = cat;
       renderFilterBar();
       buildFeed();
       document.getElementById("feed").scrollTop = 0;
@@ -531,6 +633,74 @@ const viewObs = new IntersectionObserver(entries => {
   });
 }, { threshold: 0.5 });
 
+// Best Wikipedia search term: AI lemma if present, otherwise cleaned title
+async function wikiResolve(term) {
+  // exact title first
+  try {
+    const u = "https://de.wikipedia.org/w/api.php?action=opensearch&format=json&origin=*&limit=1&search=" + encodeURIComponent(term);
+    const r = await fetch(u); const d = await r.json();
+    if (d && Array.isArray(d[3]) && d[3][0]) return d[3][0];
+  } catch (e) {}
+  return null;
+}
+
+async function openWikipedia(card) {
+  const tab = window.open("about:blank", "_blank");
+
+  // Candidate lemmas: AI-provided real topics first, then legacy single lemma
+  const cands = [];
+  if (Array.isArray(card.wikiTopics)) cands.push(...card.wikiTopics);
+  if (card.wiki && card.wiki !== card.title) cands.push(card.wiki);
+  // Old cards without curated lemmas: don't guess from the title (lands on generic
+  // articles like "Chile"); go straight to the AI explanation which always fits.
+  if (!cands.length) {
+    // Old card without curated lemmas: derive real lemmas via a quick AI call
+    try {
+      const lemmaPrompt = `Nenne 1-3 KONKRETE Fachbegriffe, die echte Artikel in der deutschen Wikipedia sind und den Kern dieses Themas treffen. Thema: "${card.title}". Kontext: "${card.fact}". Antworte NUR mit einem JSON-Array von Begriffen, ohne Markdown, z.B. ["Salpeterkrieg","Guano"].`;
+      const raw = await callAI(lemmaPrompt, 200);
+      const s = raw.indexOf("["), e = raw.lastIndexOf("]");
+      if (s !== -1 && e > s) {
+        const arr = JSON.parse(raw.slice(s, e + 1));
+        if (Array.isArray(arr)) { card.wikiTopics = arr.slice(0, 3); saveState(); cands.push(...card.wikiTopics); }
+      }
+    } catch (e) {}
+  }
+
+  if (!cands.length) {
+    if (tab) tab.close();
+    deepDive(card);
+    return;
+  }
+
+  // Resolve the FIRST candidate that maps to a real article (exact title match only —
+  // avoids landing on a too-generic article via fuzzy fulltext)
+  let target = null;
+  for (const term of cands) {
+    const hit = await wikiResolve(term);
+    if (hit) { target = hit; break; }
+  }
+
+  if (target) {
+    if (tab) tab.location.href = target; else window.location.href = target;
+  } else {
+    if (tab) tab.close();
+    deepDive(card);
+  }
+}
+
+// Open the AI panel with a clean prompt label and request a thorough explanation
+function deepDive(card) {
+  openPanel(card);
+  setTimeout(() => sendMessage("__DEEPDIVE__"), 250);
+}
+
+function wikiTerm(card) {
+  if (card.wiki && card.wiki !== card.title) return card.wiki;
+  let t = (card.title || "").split(":")[0].trim();   // drop subtitle ("X: Y" -> "X")
+  t = t.replace(/^(Der|Die|Das|Den|Dem|Ein|Eine)\s+/i, ""); // drop leading article
+  return t || card.title;
+}
+
 function makeCardEl(card) {
   const col = CAT_COLORS[card.cat] || "#7eb8d4";
   const rgb = CAT_RGBA[card.cat] || "126,184,212";
@@ -549,6 +719,7 @@ function makeCardEl(card) {
       <div class="actions">
         <button class="action-btn ${likes[card.title] ? "on-like" : ""}" data-act="like">${likes[card.title] ? "❤️" : "🤍"} Interessant</button>
         <button class="action-btn ${bookmarks[card.title] ? "on-bm" : ""}" data-act="bm">${bookmarks[card.title] ? "🔖" : "📑"} Speichern</button>
+        <button class="action-btn" data-act="wiki">📖 Mehr erfahren</button>
       </div>
       <button class="dive-btn" data-act="dive">🤖 Tiefer eintauchen — Frag die KI</button>
     </div>`;
@@ -570,6 +741,7 @@ function makeCardEl(card) {
     saveState();
     showToast(bookmarks[card.title] ? "🔖 Gespeichert" : "Entfernt");
   };
+  el.querySelector('[data-act="wiki"]').onclick = () => openWikipedia(card);
   el.querySelector('[data-act="dive"]').onclick = () => openPanel(card);
   el.dataset.title = card.title;
   viewObs.observe(el);
@@ -598,6 +770,13 @@ function buildFeed() {
   const feed = document.getElementById("feed");
   feed.innerHTML = "";
   syncQuizBar();
+  feed.classList.toggle("no-snap", filter === "__paths");
+
+  if (filter === "__paths") {
+    renderPaths(feed);
+    if (observer) observer.disconnect();
+    return;
+  }
 
   if (filter === "__saved") {
     const saved = visibleCards();
@@ -869,7 +1048,7 @@ function observePrefetchTarget() {
 }
 
 function maybePrefetch() {
-  if (filter === "__saved") return;
+  if (filter === "__saved" || filter === "__paths") return;
   if (visibleCards().length < 4) loadMore();
 }
 
@@ -880,7 +1059,12 @@ const NICHE_POOL = [
   "Kartographie und Entdeckungen", "Musiktheorie und Klang", "Materialwissenschaft", "Schlaf und Traeume",
   "Insekten und Spinnen", "Wetterphaenomene", "Mathematik im Alltag", "Pflanzenintelligenz",
   "Kryptographie", "mittelalterliches Leben", "Olympia-Geschichte", "Inseln und Mikrostaaten",
-  "Gehirn-Kuriositaeten", "Handelsrouten", "Vulkane und Plattentektonik", "beruehmte Irrtuemer der Wissenschaft"
+  "Gehirn-Kuriositaeten", "Handelsrouten", "Vulkane und Plattentektonik", "beruehmte Irrtuemer der Wissenschaft",
+  "Quantenphaenomene", "Tiermigrationen", "vergessene Zivilisationen", "optische Taeuschungen",
+  "seltene Krankheiten", "Farbpsychologie", "antike Technik", "Pilze und Myzelien",
+  "Sprachen am Aussterben", "Mondkalender und Zeitrechnung", "Bionik", "Spieltheorie",
+  "verschollene Kunstwerke", "extreme Lebensraeume", "Geruchssinn und Duefte", "Verschwoerung vs. Fakt",
+  "Geld- und Waehrungsgeschichte", "Klang und Akustik", "Symbiosen in der Natur", "Rekorde der Physik"
 ];
 function randomNiches(n) {
   const pool = [...NICHE_POOL];
@@ -916,20 +1100,34 @@ async function fillQuizBuffer() {
   quizBufferFilling = false;
 }
 
+
 function refreshFeed() {
-  if (filter === "__saved") { showToast("In der Merkliste gibt es nichts zu aktualisieren"); return; }
+  if (filter === "__saved" || filter === "__paths") { showToast("Hier gibt es nichts zu aktualisieren"); return; }
   const btn = document.getElementById("refresh-btn");
   btn.classList.add("spinning");
-  if (generating) {
-    // Queue it: runs automatically right after the current generation finishes
-    pendingRefresh = true;
-    showToast("Neue Themen kommen gleich...");
-    return;
-  }
+
   if (filter === "Quiz") {
-    generateNow();
+    if (!generating) generateNow();
+    else { pendingRefresh = true; showToast("Neue Fragen kommen gleich..."); }
     return;
   }
+
+  // FEED: serve whatever the buffer has RIGHT NOW (even 1-2 cards), instantly
+  const targetCats = filter;
+  const instant = takeFromBuffer(6, targetCats);
+  if (instant.length > 0) {
+    cards = instant.concat(cards);
+    saveState();
+    buildFeed();
+    document.getElementById("feed").scrollTop = 0;
+    showToast(`✨ ${instant.length} frische Themen`);
+    btn.classList.remove("spinning");
+    fillBuffer(); // top up in background
+    return;
+  }
+
+  // Buffer empty: kick a fast parallel generation, don't block UI more than needed
+  if (generating) { pendingRefresh = true; showToast("Neue Themen kommen gleich..."); return; }
   loadMore(true);
 }
 
@@ -949,19 +1147,21 @@ function finishGeneration() {
 
 // ---- Core generation (no UI side effects) ----
 async function generateFeedCards(count, cats) {
-  const seen = [...seenTitles].slice(-30).join("; ");
-  const niches = randomNiches(3).join(", ");
-  const prompt = `Generiere genau ${count} voellig neue, faszinierende Wissens-Themen auf Deutsch fuer eine Lern-App.
+  const seen = [...seenTitles].slice(-60).join("; ");
+  const niches = randomNiches(4).join(", ");
+  const seed = Math.random().toString(36).slice(2, 7);
+  const prompt = `Generiere genau ${count} voellig neue, ueberraschende Wissens-Themen auf Deutsch fuer eine Lern-App.
 Erlaubte Kategorien: ${cats.join(", ")}
-Vermeide naheliegende Standard-Themen — lass dich von diesen Nischen inspirieren: ${niches}.
-Diese Themen wurden bereits gezeigt und sind VERBOTEN: ${seen}
+Sei kreativ und unvorhersehbar (Zufalls-Seed ${seed}). Vermeide Klassiker und Naheliegendes — lass dich von diesen Nischen inspirieren: ${niches}.
+Diese Themen wurden schon gezeigt und sind STRENG VERBOTEN: ${seen}
 
 Antworte AUSSCHLIESSLICH mit einem JSON-Array, ohne Markdown, ohne Text drumherum:
-[{"cat":"Geschichte","title":"Kurzer Titel","fact":"Zwei bis drei packende Saetze.","quickQ":["Frage 1?","Frage 2?","Frage 3?"]}]
+[{"cat":"Geschichte","title":"Kurzer Titel","fact":"Zwei bis drei packende Saetze.","wikiTopics":["Hauptlemma","Nebenlemma"],"quickQ":["Frage 1?","Frage 2?","Frage 3?"]}]
 
 Regeln:
 - cat exakt eine aus: ${cats.join(", ")}
 - fact: 2 bis 3 lehrreiche, ueberraschende Saetze auf Deutsch
+- wikiTopics: 2-3 KONKRETE Fachbegriffe, die echte Artikel in der deutschen Wikipedia sind und den KERN des Themas treffen (NICHT der reisserische Titel, sondern die eigentlichen Sachbegriffe). Beispiel: Thema "Die Salpeter-Piraten von Chile" -> ["Salpeterkrieg","Chilesalpeter","Guano"]. Vom spezifischsten zum allgemeinsten.
 - quickQ: genau 3 kurze Fragen`;
 
   const raw = await callAI(prompt, 1600);
@@ -977,6 +1177,7 @@ Regeln:
         emoji: pickEmoji(c.cat),
         title: c.title,
         fact: c.fact,
+        wikiTopics: Array.isArray(c.wikiTopics) && c.wikiTopics.length ? c.wikiTopics.slice(0,3) : (c.wiki ? [c.wiki] : []),
         quickQ: Array.isArray(c.quickQ) && c.quickQ.length ? c.quickQ.slice(0,3) : ["Erzähl mir mehr!","Warum ist das so?","Gibt es Beispiele?"]
       };
     });
@@ -985,37 +1186,37 @@ Regeln:
 // ---- Background buffer: cards ready before you need them ----
 let cardBuffer = [];
 let bufferFilling = false;
-const BUFFER_TARGET = 12;
+const BUFFER_TARGET = 18;
 
 async function fillBuffer() {
   if (bufferFilling || cardBuffer.length >= BUFFER_TARGET) return;
   if (!workerUrl || !apiKey) return;
   bufferFilling = true;
   try {
-    // Empty or low buffer: two parallel generations; otherwise one
-    const jobs = cardBuffer.length < 4
-      ? [generateFeedCards(4, ALL_CATS), generateFeedCards(4, ALL_CATS)]
+    // Low buffer -> three parallel batches at once; otherwise one to top up
+    const jobs = cardBuffer.length < 6
+      ? [generateFeedCards(4, ALL_CATS), generateFeedCards(4, ALL_CATS), generateFeedCards(4, ALL_CATS)]
       : [generateFeedCards(4, ALL_CATS)];
     const results = await Promise.all(jobs.map(p => p.catch(() => [])));
     results.forEach(fresh => { cardBuffer = cardBuffer.concat(fresh); });
   } catch (e) { /* silent */ }
   bufferFilling = false;
-  if (cardBuffer.length < BUFFER_TARGET) setTimeout(fillBuffer, 400);
+  if (cardBuffer.length < BUFFER_TARGET) setTimeout(fillBuffer, 200);
 }
 
 function takeFromBuffer(n, cat) {
   const out = [];
   for (let i = cardBuffer.length - 1; i >= 0 && out.length < n; i--) {
-    if (cat === "Alle" || cardBuffer[i].cat === cat) out.push(cardBuffer.splice(i, 1)[0]);
+    if (cat === "Alle" || cat === undefined || cardBuffer[i].cat === cat) out.push(cardBuffer.splice(i, 1)[0]);
   }
-  setTimeout(fillBuffer, 100); // refill in background
+  fillBuffer(); // refill immediately in background
   return out;
 }
 
 async function loadMore(prepend) {
   if (generating) return;
   if (!workerUrl || !apiKey) { document.getElementById("refresh-btn").classList.remove("spinning"); openSetup(); return; }
-  if (filter === "__saved") { document.getElementById("refresh-btn").classList.remove("spinning"); return; }
+  if (filter === "__saved" || filter === "__paths") { document.getElementById("refresh-btn").classList.remove("spinning"); return; }
   if (filter === "Quiz") return loadMoreQuizzes(prepend);
 
   // Instant path: serve from buffer
@@ -1035,14 +1236,17 @@ async function loadMore(prepend) {
     finishGeneration();
     return;
   }
-  // put partial take back, do a live generation instead
-  cardBuffer = cardBuffer.concat(buffered);
-
+  // Buffer can't serve enough — generate live, but in PARALLEL (fast)
   generating = true;
   updateEndCard();
   try {
     const targetCats = filter === "Alle" ? ALL_CATS : [filter];
-    const fresh = await generateFeedCards(5, targetCats);
+    // two parallel batches of 3 = quick, and we keep whatever the buffer gave us
+    const [a, b] = await Promise.all([
+      generateFeedCards(3, targetCats).catch(() => []),
+      generateFeedCards(3, targetCats).catch(() => [])
+    ]);
+    const fresh = buffered.concat(a, b);
     if (fresh.length) {
       if (prepend) {
         cards = fresh.concat(cards);
@@ -1064,22 +1268,6 @@ async function loadMore(prepend) {
   finishGeneration();
 }
 
-function refreshFeed() {
-  if (filter === "__saved") { showToast("In der Merkliste gibt es nichts zu aktualisieren"); return; }
-  const btn = document.getElementById("refresh-btn");
-  btn.classList.add("spinning");
-  if (generating) {
-    // Queue it: runs automatically right after the current generation finishes
-    pendingRefresh = true;
-    showToast("Neue Themen kommen gleich...");
-    return;
-  }
-  if (filter === "Quiz") {
-    generateNow();
-    return;
-  }
-  loadMore(true);
-}
 
 function finishGeneration() {
   generating = false;
@@ -1098,7 +1286,7 @@ function finishGeneration() {
 async function loadMore(prepend) {
   if (generating) return;
   if (!workerUrl || !apiKey) { document.getElementById("refresh-btn").classList.remove("spinning"); openSetup(); return; }
-  if (filter === "__saved") { document.getElementById("refresh-btn").classList.remove("spinning"); return; }
+  if (filter === "__saved" || filter === "__paths") { document.getElementById("refresh-btn").classList.remove("spinning"); return; }
   if (filter === "Quiz") return loadMoreQuizzes(prepend);
   generating = true;
   updateEndCard();
@@ -1293,6 +1481,394 @@ function generateNow() {
   loadMoreQuizzes(true);
 }
 
+// ============ THEMEN-KATALOG ============
+const TOPIC_CATALOG = [{"sec": "Philosophie & Geistesgeschichte", "icon": "🧠", "groups": [{"name": "Grundlagen der Philosophie", "topics": ["Was ist Philosophie?", "Erkenntnistheorie", "Ontologie", "Metaphysik", "Logik", "Ethik", "Ästhetik", "Sprachphilosophie", "Wissenschaftstheorie"]}, {"name": "Antike Philosophie", "topics": ["Vorsokratiker", "Sokrates", "Platon", "Aristoteles", "Die Stoa", "Epikureismus", "Skeptizismus", "Neuplatonismus"]}, {"name": "Mittelalterliche Philosophie", "topics": ["Augustinus", "Scholastik", "Thomas von Aquin", "Islamische Philosophie", "Jüdische Philosophie"]}, {"name": "Neuzeitliche Philosophie", "topics": ["Rationalismus", "Empirismus", "Descartes", "Spinoza", "John Locke", "David Hume", "Immanuel Kant"]}, {"name": "Moderne & Gegenwartsphilosophie", "topics": ["Deutscher Idealismus", "Existenzialismus", "Phänomenologie", "Analytische Philosophie", "Poststrukturalismus", "Ethik der Gegenwart", "Technikethik"]}]}, {"sec": "Religionen & Weltanschauungen", "icon": "🕊️", "groups": [{"name": "Religionswissenschaft", "topics": ["Definition von Religion", "Mythos", "Ritual", "Heilige Texte", "Priestertum", "Sakralität"]}, {"name": "Weltreligionen", "topics": ["Judentum", "Christentum", "Islam", "Hinduismus", "Buddhismus", "Daoismus", "Konfuzianismus", "Sikhismus"]}, {"name": "Früh- & Naturreligionen", "topics": ["Animismus", "Totemismus", "Schamanismus", "Ahnenkult"]}, {"name": "Moderne Weltanschauungen", "topics": ["Humanismus", "Atheismus", "Agnostizismus", "Säkularismus", "Esoterik"]}]}, {"sec": "Politik & Staat", "icon": "🏛️", "groups": [{"name": "Politische Grundlagen", "topics": ["Der Staat", "Macht", "Legitimität", "Gewaltmonopol", "Verfassung", "Souveränität"]}, {"name": "Politische Systeme", "topics": ["Demokratie", "Republik", "Monarchie", "Diktatur", "Autoritarismus", "Totalitarismus"]}, {"name": "Politische Ideologien", "topics": ["Liberalismus", "Konservatismus", "Sozialismus", "Kommunismus", "Anarchismus", "Nationalismus", "Faschismus"]}, {"name": "Internationale Politik", "topics": ["Diplomatie", "Internationale Organisationen", "Die UNO", "Die NATO", "Die EU", "Völkerrecht"]}]}, {"sec": "Recht & Gesellschaft", "icon": "⚖️", "groups": [{"name": "Rechtsgrundlagen", "topics": ["Was ist Recht?", "Rechtsquellen", "Rechtsstaat", "Gewaltenteilung"]}, {"name": "Rechtsgebiete", "topics": ["Zivilrecht", "Strafrecht", "Öffentliches Recht", "Verfassungsrecht", "Verwaltungsrecht", "Völkerrecht"]}, {"name": "Gesellschaft", "topics": ["Sozialstrukturen", "Gesellschaftliche Schichten", "Soziale Klassen", "Soziale Milieus", "Soziale Mobilität", "Soziale Ungleichheit"]}]}, {"sec": "Wirtschaft & Ökonomie", "icon": "📈", "groups": [{"name": "Wirtschaftliche Grundlagen", "topics": ["Knappheit", "Angebot & Nachfrage", "Der Markt", "Preisbildung", "Wettbewerb"]}, {"name": "Wirtschaftssysteme", "topics": ["Marktwirtschaft", "Planwirtschaft", "Soziale Marktwirtschaft", "Mischsysteme"]}, {"name": "Makroökonomie", "topics": ["Bruttoinlandsprodukt", "Inflation", "Arbeitslosigkeit", "Geldpolitik", "Fiskalpolitik"]}, {"name": "Mikroökonomie", "topics": ["Haushalte", "Unternehmen", "Produktionsfaktoren", "Kostenstrukturen"]}, {"name": "Globalwirtschaft", "topics": ["Welthandel", "Globalisierung", "Multinationale Konzerne", "Entwicklungsökonomie"]}]}, {"sec": "Mathematik", "icon": "🔢", "groups": [{"name": "Grundlagen", "topics": ["Zahlen", "Mengen", "Logik", "Mathematische Beweise"]}, {"name": "Arithmetik", "topics": ["Grundrechenarten", "Brüche", "Potenzen", "Prozentrechnung"]}, {"name": "Algebra", "topics": ["Gleichungen", "Funktionen", "Polynome", "Lineare Algebra"]}, {"name": "Geometrie", "topics": ["Euklidische Geometrie", "Geometrische Körper", "Trigonometrie"]}, {"name": "Analysis", "topics": ["Differentialrechnung", "Integralrechnung", "Grenzwerte"]}, {"name": "Statistik & Wahrscheinlichkeit", "topics": ["Deskriptive Statistik", "Wahrscheinlichkeitsrechnung", "Regression", "Korrelation"]}]}, {"sec": "Naturwissenschaften", "icon": "🔬", "groups": [{"name": "Physik", "topics": ["Mechanik", "Thermodynamik", "Elektromagnetismus", "Optik", "Quantenphysik", "Relativitätstheorie"]}, {"name": "Chemie", "topics": ["Atombau", "Das Periodensystem", "Chemische Bindungen", "Chemische Reaktionen", "Organische Chemie", "Anorganische Chemie"]}, {"name": "Biologie", "topics": ["Die Zelle", "Genetik", "Evolution", "Ökologie", "Anatomie", "Physiologie", "Mikrobiologie"]}, {"name": "Astronomie", "topics": ["Das Sonnensystem", "Sterne", "Galaxien", "Kosmologie", "Der Urknall"]}]}, {"sec": "Geografie", "icon": "🌍", "groups": [{"name": "Physische Geografie", "topics": ["Die Kontinente", "Gebirge", "Die Ozeane", "Klima", "Wetter", "Plattentektonik"]}, {"name": "Humangeografie", "topics": ["Bevölkerungsverteilung", "Urbanisierung", "Migration", "Wirtschaftsgeografie"]}, {"name": "Kartografie", "topics": ["Kartenarten", "Kartenprojektionen", "Maßstäbe", "Geoinformationssysteme (GIS)"]}]}, {"sec": "Medizin & Gesundheit", "icon": "🩺", "groups": [{"name": "Grundlagen", "topics": ["Anatomie des Menschen", "Organsysteme", "Homöostase"]}, {"name": "Krankheiten", "topics": ["Infektionskrankheiten", "Chronische Krankheiten", "Zivilisationskrankheiten"]}, {"name": "Medizinische Systeme", "topics": ["Schulmedizin", "Prävention", "Impfungen", "Öffentliche Gesundheit"]}]}, {"sec": "Technik & Digitalisierung", "icon": "💻", "groups": [{"name": "Technikgeschichte", "topics": ["Werkzeuge", "Maschinen", "Elektrizität", "Der Computer"]}, {"name": "Informatik", "topics": ["Hardware", "Software", "Algorithmen", "Datenstrukturen"]}, {"name": "Internet & Gesellschaft", "topics": ["Netzwerke", "Künstliche Intelligenz", "Datenschutz", "Digitale Ethik"]}]}, {"sec": "Kunst & Kultur", "icon": "🎨", "groups": [{"name": "Bildende Kunst", "topics": ["Malerei", "Skulptur", "Architektur"]}, {"name": "Musik", "topics": ["Musiktheorie", "Klassische Musik", "Moderne Musik"]}, {"name": "Literatur", "topics": ["Literarische Gattungen", "Erzähltheorie", "Weltliteratur"]}, {"name": "Film & Medien", "topics": ["Filmgeschichte", "Medienanalyse", "Popkultur"]}]}, {"sec": "Sprache & Kommunikation", "icon": "🗣️", "groups": [{"name": "Linguistik", "topics": ["Phonetik", "Morphologie", "Syntax", "Semantik", "Pragmatik"]}, {"name": "Schrift & Texte", "topics": ["Schriftsysteme", "Textsorten", "Rhetorik"]}, {"name": "Kommunikation", "topics": ["Mündliche Kommunikation", "Schriftliche Kommunikation", "Medienkommunikation"]}]}, {"sec": "Psychologie & Mensch", "icon": "💭", "groups": [{"name": "Grundlagen", "topics": ["Wahrnehmung", "Lernen", "Gedächtnis", "Emotionen"]}, {"name": "Persönlichkeitspsychologie", "topics": ["Persönlichkeitstheorien", "Motivation", "Intelligenz"]}, {"name": "Sozialpsychologie", "topics": ["Gruppen", "Vorurteile", "Macht", "Kommunikation"]}]}, {"sec": "Geschichte: Grundlagen", "icon": "📜", "groups": [{"name": "Geschichtswissenschaft", "topics": ["Definition von Geschichte", "Historische Methode", "Objektivität vs. Interpretation", "Historischer Materialismus", "Annales-Schule", "Strukturgeschichte", "Mikrogeschichte", "Globalgeschichte"]}, {"name": "Quellenkunde", "topics": ["Schriftquellen", "Sachquellen", "Bildquellen", "Mündliche Überlieferung", "Archäologische Befunde", "Numismatik", "Epigraphik", "Paläographie"]}, {"name": "Zeit & Datierung", "topics": ["Relative Datierung", "Absolute Datierung", "C14-Methode", "Dendrochronologie", "Stratigraphie", "Astronomische Datierung"]}]}, {"sec": "Ur- & Frühgeschichte", "icon": "🦴", "groups": [{"name": "Menschwerdung", "topics": ["Evolution des Menschen", "Australopithecus", "Homo erectus", "Neandertaler", "Denisova-Mensch", "Homo sapiens", "Migrationen des frühen Menschen"]}, {"name": "Steinzeit", "topics": ["Paläolithikum", "Mesolithikum", "Neolithikum", "Die neolithische Revolution", "Domestikation", "Megalithkulturen"]}, {"name": "Metallzeiten", "topics": ["Kupferzeit", "Bronzezeit", "Eisenzeit", "Frühe Handelsnetzwerke", "Frühstaatlichkeit"]}]}, {"sec": "Frühe Hochkulturen", "icon": "🏺", "groups": [{"name": "Mesopotamien", "topics": ["Sumerer", "Akkader", "Babylonisches Reich", "Assyrisches Reich", "Keilschrift", "Codex Hammurabi", "Mesopotamische Religion"]}, {"name": "Hethiter", "topics": ["Das Hethiterreich", "Hauptstadt Hattusa", "Schlacht bei Kadesch", "Zusammenbruch der Bronzezeit"]}, {"name": "Ägypten", "topics": ["Altes Reich", "Mittleres Reich", "Neues Reich", "Das Pharaonentum", "Pyramidenbau", "Hieroglyphenschrift", "Ägyptische Jenseitsvorstellungen"]}, {"name": "Levante & Anatolien", "topics": ["Phönizier", "Ugarit", "Aramäer", "Die Seevölker"]}]}, {"sec": "Antikes Asien", "icon": "🐉", "groups": [{"name": "Indus-Kultur", "topics": ["Harappa", "Mohenjo-Daro", "Stadtplanung der Indus-Kultur"]}, {"name": "China", "topics": ["Shang-Dynastie", "Zhou-Dynastie", "Mandat des Himmels", "Qin-Reich", "Han-Dynastie"]}, {"name": "Japan", "topics": ["Jōmon-Zeit", "Yayoi-Zeit", "Kofun-Zeit", "Frühe japanische Staatsbildung"]}, {"name": "Südasien", "topics": ["Vedische Zeit", "Maurya-Reich", "Ashoka", "Gupta-Reich"]}]}, {"sec": "Antikes Europa", "icon": "🏛️", "groups": [{"name": "Ägäische Welt", "topics": ["Minoische Kultur", "Mykenische Kultur"]}, {"name": "Griechenland", "topics": ["Das Polis-System", "Athenische Demokratie", "Sparta", "Perserkriege", "Peloponnesischer Krieg", "Alexander der Große", "Hellenismus"]}, {"name": "Rom", "topics": ["Römisches Königtum", "Römische Republik", "Punische Kriege", "Caesar", "Augustus", "Römische Kaiserzeit", "Reichskrise", "Untergang Westroms", "Byzanz"]}]}, {"sec": "Präkolumbisches Amerika", "icon": "🗿", "groups": [{"name": "Mesoamerika", "topics": ["Olmeken", "Die Maya", "Teotihuacán", "Tolteken", "Azteken"]}, {"name": "Andenraum", "topics": ["Chavín", "Moche", "Nazca", "Tiwanaku", "Wari", "Das Inka-Reich"]}, {"name": "Nordamerika", "topics": ["Ancestral Pueblo", "Mississippikultur"]}]}, {"sec": "Mittelalter (global)", "icon": "🏰", "groups": [{"name": "Europa", "topics": ["Völkerwanderung", "Merowinger", "Karolinger", "Feudalismus", "Lehnswesen", "Die Kreuzzüge", "Mittelalterliches Städtewesen", "Die Pest", "Hundertjähriger Krieg"]}, {"name": "Islamische Welt", "topics": ["Mohammed", "Der Koran", "Das Kalifat", "Umayyaden", "Abbasiden", "Islamische Wissenschaft", "Al-Andalus"]}, {"name": "Afrika", "topics": ["Reich von Ghana", "Mali-Reich", "Songhai-Reich", "Swahili-Kultur", "Äthiopisches Reich"]}, {"name": "Asien", "topics": ["Tang-Dynastie", "Song-Dynastie", "Das Mongolenreich", "Samurai & Shogunat", "Khmer-Reich"]}]}, {"sec": "Frühe Neuzeit", "icon": "⚓", "groups": [{"name": "Themen", "topics": ["Renaissance", "Humanismus", "Der Buchdruck", "Reformation", "Gegenreformation", "Religionskriege", "Absolutismus", "Kolonialismus", "Sklavenhandel", "Aufklärung"]}]}, {"sec": "Moderne & Zeitgeschichte", "icon": "🌐", "groups": [{"name": "Themen", "topics": ["Amerikanische Revolution", "Französische Revolution", "Napoleon", "Industrialisierung", "Nationalismus", "Imperialismus", "Erster Weltkrieg", "Zwischenkriegszeit", "Zweiter Weltkrieg", "Kalter Krieg", "Dekolonisation", "Europäische Integration", "Globalisierung", "Digitale Revolution"]}]}];
+
+function renderCatalog(wrap) {
+  const search = document.createElement("input");
+  search.id = "catalog-search";
+  search.type = "text";
+  search.placeholder = "🔍 Thema suchen...";
+  search.value = catalogQuery;
+  search.oninput = () => { catalogQuery = search.value; renderCatalogGroups(groupsHost); };
+  wrap.appendChild(search);
+
+  const groupsHost = document.createElement("div");
+  wrap.appendChild(groupsHost);
+  renderCatalogGroups(groupsHost);
+  // keep focus + cursor after re-render
+  if (catalogQuery) { search.focus(); search.setSelectionRange(search.value.length, search.value.length); }
+}
+
+let catalogQuery = "";
+
+let openSections = {}; // remember which are expanded
+
+function renderCatalogGroups(host) {
+  host.innerHTML = "";
+  const q = catalogQuery.trim().toLowerCase();
+  let anyShown = false;
+
+  TOPIC_CATALOG.forEach((section, si) => {
+    const subMatches = section.groups
+      .map(g => ({ name: g.name, topics: q ? g.topics.filter(t => t.toLowerCase().includes(q)) : g.topics }))
+      .filter(g => g.topics.length);
+    if (!subMatches.length) return;
+    anyShown = true;
+
+    const count = subMatches.reduce((n, s) => n + s.topics.length, 0);
+    // when searching, auto-open; otherwise use remembered state
+    const isOpen = q ? true : !!openSections[si];
+
+    const secEl = document.createElement("div");
+    secEl.className = "cat-group" + (isOpen ? " open" : "");
+
+    const header = document.createElement("div");
+    header.className = "cat-sec-header";
+    header.innerHTML = `<span style="font-size:18px">${section.icon}</span>
+      <span style="font-size:14px;font-weight:700">${section.sec}</span>
+      <span class="cat-sec-count">${count}</span>
+      <span class="chev">▶</span>`;
+    header.onclick = () => {
+      openSections[si] = !secEl.classList.contains("open");
+      secEl.classList.toggle("open");
+    };
+    secEl.appendChild(header);
+
+    const body = document.createElement("div");
+    body.className = "cat-sec-body";
+    subMatches.forEach(sub => {
+      const subTitle = document.createElement("div");
+      subTitle.style.cssText = "font-size:11px;color:rgba(240,240,245,0.4);margin:10px 0 6px;font-weight:600";
+      subTitle.textContent = sub.name;
+      body.appendChild(subTitle);
+      const chips = document.createElement("div");
+      chips.className = "topic-chips";
+      sub.topics.forEach(topic => {
+        const c = document.createElement("button");
+        c.className = "topic-chip";
+        c.textContent = topic;
+        c.onclick = () => startPathFromTopic(topic);
+        chips.appendChild(c);
+      });
+      body.appendChild(chips);
+    });
+    secEl.appendChild(body);
+    host.appendChild(secEl);
+  });
+
+  if (!anyShown) {
+    const empty = document.createElement("div");
+    empty.className = "catalog-empty";
+    empty.innerHTML = `Kein Thema gefunden.<br>Tippe oben dein eigenes Thema ein.`;
+    host.appendChild(empty);
+  }
+}
+
+async function startPathFromTopic(topic) {
+  const len = 5; // default for catalog topics
+  await createPathWith(topic, len);
+}
+
+// ---- Topic picker for quizzes ----
+let pickerQuery = "";
+function openTopicPicker() {
+  pickerQuery = "";
+  const inp = document.getElementById("picker-search");
+  inp.value = "";
+  inp.oninput = () => { pickerQuery = inp.value; renderPicker(); };
+  renderPicker();
+  document.getElementById("topic-picker").style.display = "flex";
+}
+function closeTopicPicker() { document.getElementById("topic-picker").style.display = "none"; }
+function renderPicker() {
+  const host = document.getElementById("picker-body");
+  host.innerHTML = "";
+  const q = pickerQuery.trim().toLowerCase();
+  let any = false;
+  TOPIC_CATALOG.forEach(section => {
+    const matches = [];
+    section.groups.forEach(g => g.topics.forEach(t => { if (!q || t.toLowerCase().includes(q)) matches.push(t); }));
+    if (!matches.length) return;
+    any = true;
+    const t = document.createElement("div");
+    t.style.cssText = "font-size:12px;font-weight:700;color:rgba(240,240,245,0.5);margin:12px 0 7px";
+    t.innerHTML = `${section.icon} ${section.sec}`;
+    host.appendChild(t);
+    const chips = document.createElement("div");
+    chips.className = "topic-chips";
+    matches.forEach(topic => {
+      const c = document.createElement("button");
+      c.className = "topic-chip";
+      c.textContent = topic;
+      c.onclick = () => {
+        document.getElementById("quiz-topic").value = topic;
+        setQuizOpts();
+        closeTopicPicker();
+        showToast(`Quiz-Thema: ${topic}`);
+      };
+      chips.appendChild(c);
+    });
+    host.appendChild(chips);
+  });
+  if (!any) host.innerHTML = '<div style="text-align:center;color:rgba(240,240,245,0.4);padding:30px;font-size:14px">Kein Thema gefunden</div>';
+}
+
+// ============ WISSENSPFADE ============
+function renderPaths(feed) {
+  const wrap = document.createElement("div");
+  wrap.className = "paths-wrap";
+
+  if (pathState.mode === "chapters" && pathState.pathId) {
+    const p = paths.find(x => x.id === pathState.pathId);
+    if (!p) { pathState = { mode: "list" }; return renderPaths(feed); }
+    const back = document.createElement("button");
+    back.className = "back-btn";
+    back.textContent = "‹ Alle Pfade";
+    back.onclick = () => { pathState = { mode: "list" }; buildFeed(); };
+    wrap.appendChild(back);
+
+    const h = document.createElement("h3");
+    h.style.cssText = "font-size:19px;font-weight:800;margin-bottom:4px";
+    h.textContent = p.title;
+    wrap.appendChild(h);
+    const done = p.chapters.filter(c => c.done).length;
+    const meta = document.createElement("div");
+    meta.className = "path-meta";
+    meta.textContent = `${done} von ${p.chapters.length} Kapiteln abgeschlossen`;
+    wrap.appendChild(meta);
+    const prog = document.createElement("div");
+    prog.className = "path-progress";
+    prog.style.marginBottom = "16px";
+    prog.innerHTML = `<div style="width:${Math.round(done / p.chapters.length * 100)}%"></div>`;
+    wrap.appendChild(prog);
+
+    p.chapters.forEach((ch, i) => {
+      const row = document.createElement("div");
+      row.className = "chapter-row" + (ch.done ? " done" : "");
+      const status = ch.content ? "" : (p.generating ? ' <span style="color:#f0d97e">· wird geschrieben…</span>' : "");
+      row.innerHTML = `<div class="chapter-num">${ch.done ? "✓" : i + 1}</div>
+        <div style="flex:1"><div class="chapter-title">${esc(ch.title)}${status}</div>
+        ${ch.teaser ? `<div class="chapter-teaser">${esc(ch.teaser)}</div>` : ""}</div>
+        ${ch.content && !ch.done ? '<span style="color:#7ecfb0;font-size:12px;flex-shrink:0">bereit</span>' : ""}`;
+      row.onclick = () => openChapter(p, i);
+      wrap.appendChild(row);
+    });
+  } else {
+    // Create form
+    const create = document.createElement("div");
+    create.className = "path-create";
+    create.innerHTML = `<h3>🧭 Neuen Wissenspfad erstellen</h3>
+      <div class="pc-row">
+        <input class="pc-input" id="path-topic" type="text" placeholder="Thema, z.B. Roemisches Reich" autocomplete="off">
+        <select class="pc-select" id="path-len"><option value="5">5 Kap.</option><option value="8">8 Kap.</option></select>
+        <button class="pc-btn" id="path-create-btn">Los</button>
+      </div>`;
+    wrap.appendChild(create);
+    create.querySelector("#path-create-btn").onclick = createPath;
+
+    // Existing paths first (if any)
+    if (paths.length) {
+      const myTitle = document.createElement("div");
+      myTitle.className = "cat-group-title";
+      myTitle.style.marginBottom = "10px";
+      myTitle.innerHTML = "<span>📚</span> Meine Pfade";
+      wrap.appendChild(myTitle);
+    }
+
+    paths.forEach(p => {
+      const done = p.chapters.filter(c => c.done).length;
+      const card = document.createElement("div");
+      card.className = "path-card";
+      card.innerHTML = `<h4>${esc(p.title)}</h4>
+        <div class="path-meta">${p.chapters.length} Kapitel · ${done} abgeschlossen</div>
+        <div class="path-progress"><div style="width:${Math.round(done / p.chapters.length * 100)}%"></div></div>
+        <button class="path-del">✕</button>`;
+      card.querySelector(".path-del").onclick = (e) => {
+        e.stopPropagation();
+        if (confirm(`Pfad "${p.title}" wirklich loeschen?`)) {
+          paths = paths.filter(x => x.id !== p.id);
+          savePaths();
+          buildFeed();
+        }
+      };
+      card.onclick = () => { pathState = { mode: "chapters", pathId: p.id }; buildFeed(); };
+      wrap.appendChild(card);
+    });
+
+    // Topic catalog
+    const catTitle = document.createElement("div");
+    catTitle.className = "cat-group-title";
+    catTitle.style.cssText = "margin:18px 0 12px;font-size:15px;color:rgba(240,240,245,0.85)";
+    catTitle.innerHTML = "💡 Themen-Katalog — tippe an, um zu starten";
+    wrap.appendChild(catTitle);
+    renderCatalog(wrap);
+  }
+  feed.appendChild(wrap);
+}
+
+async function createPath() {
+  const topic = document.getElementById("path-topic").value.trim();
+  const len = parseInt(document.getElementById("path-len").value, 10) || 5;
+  if (!topic) { showToast("Bitte ein Thema eingeben"); return; }
+  const btn = document.getElementById("path-create-btn");
+  if (btn) { btn.disabled = true; btn.textContent = "..."; }
+  return createPathWith(topic, len);
+}
+
+async function createPathWith(topic, len) {
+  if (!workerUrl || !apiKey) { openSetup(); return; }
+  showToast(`🧭 Erstelle Pfad zu "${topic}"...`);
+
+  const prompt = `Erstelle eine Gliederung fuer einen Lernpfad zum Thema "${topic}" mit genau ${len} aufeinander aufbauenden Kapiteln. Vom Einstieg bis zu fortgeschrittenen Aspekten.
+
+Antworte AUSSCHLIESSLICH mit einem JSON-Objekt, ohne Markdown:
+{"title":"Praegnanter Pfad-Titel","chapters":[{"title":"Kapiteltitel","teaser":"Ein Satz, worum es geht."}]}
+
+Regeln:
+- genau ${len} Kapitel, logisch aufbauend
+- Kapiteltitel kurz und konkret
+- teaser: genau 1 Satz`;
+
+  try {
+    const raw = await callAI(prompt, 1200);
+    const s = raw.indexOf("{"), e = raw.lastIndexOf("}");
+    if (s === -1 || e <= s) throw new Error("Kein JSON in Antwort");
+    const data = JSON.parse(raw.slice(s, e + 1));
+    if (!data.title || !Array.isArray(data.chapters) || !data.chapters.length) throw new Error("Unvollstaendige Gliederung");
+
+    const p = {
+      id: "p" + Date.now(),
+      topic,
+      title: data.title,
+      generating: true,
+      chapters: data.chapters.map(c => ({ title: c.title || "Kapitel", teaser: c.teaser || "", content: null, keyPoints: [], done: false }))
+    };
+    paths.unshift(p);
+    savePaths();
+    pathState = { mode: "chapters", pathId: p.id };
+    buildFeed();
+
+    // Fire ALL chapters in parallel immediately (don't await) — they stream in
+    p.chapters.forEach((ch, idx) => {
+      writeChapter(p, idx).then(() => {
+        if (filter === "__paths" && pathState.pathId === p.id) {
+          if (pathState.mode === "chapters") refreshChapterRow(p, idx);
+        }
+      }).catch(() => {}).finally(() => {
+        if (p.chapters.every(c => c.content)) { p.generating = false; savePaths(); }
+      });
+    });
+    showToast(`🧭 "${p.title}" — los geht's!`);
+  } catch (e2) {
+    showToast("Fehler: " + (e2.message || e2));
+    const b = document.getElementById("path-create-btn");
+    if (b) { b.disabled = false; b.textContent = "Los"; }
+  }
+}
+
+// Update a single chapter row's status without rebuilding the whole list
+function refreshChapterRow(p, idx) {
+  const rows = document.querySelectorAll("#feed .chapter-row");
+  const row = rows[idx];
+  if (!row) return;
+  const ch = p.chapters[idx];
+  const titleEl = row.querySelector(".chapter-title");
+  if (titleEl) titleEl.innerHTML = esc(ch.title);
+  // remove any status tag, add "bereit"
+  let tag = row.querySelector(".ch-status");
+  if (!tag) {
+    tag = document.createElement("span");
+    tag.className = "ch-status";
+    tag.style.cssText = "font-size:12px;flex-shrink:0";
+    row.appendChild(tag);
+  }
+  if (ch.content && !ch.done) { tag.style.color = "#7ecfb0"; tag.textContent = "bereit"; }
+  else tag.textContent = "";
+}
+
+// Pure chapter generation (no UI) — used for parallel pre-generation
+async function writeChapter(p, idx) {
+  const ch = p.chapters[idx];
+  if (ch.content || ch._writing) return;
+  ch._writing = true;
+  const prevTitles = p.chapters.map((c, i) => `${i+1}. ${c.title}`).join("; ");
+  const prompt = `Du schreibst Kapitel ${idx + 1} von ${p.chapters.length} eines Lernpfads zum Thema "${p.topic}".
+Pfad-Titel: "${p.title}"
+Dieses Kapitel: "${ch.title}" — ${ch.teaser}
+Gesamte Kapiteluebersicht (fuer Kontext, NICHT wiederholen was in anderen Kapiteln gehoert): ${prevTitles}
+
+Antworte AUSSCHLIESSLICH mit einem JSON-Objekt, ohne Markdown:
+{"content":"Der Kapiteltext...","keyPoints":["Kernpunkt 1","Kernpunkt 2","Kernpunkt 3"]}
+
+Regeln:
+- content: 180-230 Woerter auf Deutsch, lebendig und auf den Punkt, in 2-3 Absaetze gegliedert (Absaetze mit \\n\\n trennen)
+- keyPoints: genau 3 praegnante Merksaetze`;
+  const raw = await callAI(prompt, 1000);
+  const s = raw.indexOf("{"), e = raw.lastIndexOf("}");
+  if (s === -1 || e <= s) throw new Error("Kein JSON in Antwort");
+  const data = JSON.parse(raw.slice(s, e + 1));
+  ch.content = data.content || "";
+  ch.keyPoints = Array.isArray(data.keyPoints) ? data.keyPoints.slice(0, 3) : [];
+  ch._writing = false;
+  savePaths();
+}
+
+async function openChapter(p, idx) {
+  const ch = p.chapters[idx];
+  pathState = { mode: "chapters", pathId: p.id, chapterIdx: idx };
+  const reader = document.getElementById("reader");
+  const body = document.getElementById("reader-body");
+  document.getElementById("reader-path-title").textContent = `${p.title} · Kapitel ${idx + 1}/${p.chapters.length}`;
+  reader.classList.add("show");
+
+  if (!ch.content) {
+    body.innerHTML = `<h2>${esc(ch.title)}</h2><p style="color:rgba(240,240,245,0.45);font-style:italic">✨ Kapitel wird geschrieben...</p>`;
+    // It may already be generating in the background — wait for it, else start it
+    try {
+      let waited = 0;
+      while (!ch.content && waited < 20000) {
+        await new Promise(r => setTimeout(r, 400));
+        waited += 400;
+        // if nobody is generating it (e.g. failed), kick it off once
+        if (!ch.content && waited === 2000 && !ch._writing) writeChapter(p, idx).catch(() => {});
+      }
+      if (!ch.content) throw new Error("Zeitueberschreitung");
+    } catch (e2) {
+      body.innerHTML = `<h2>${esc(ch.title)}</h2><p style="color:#e87c9a">Konnte nicht laden. <button onclick="openChapter(paths.find(x=>x.id==='${p.id}'), ${idx})" style="color:#7eb8d4;background:none;border:none;cursor:pointer;text-decoration:underline">Erneut versuchen</button></p>`;
+      return;
+    }
+  }
+  renderChapter(p, idx);
+}
+
+function renderChapter(p, idx) {
+  const ch = p.chapters[idx];
+  const body = document.getElementById("reader-body");
+  const paras = (ch.content || "").split(/\n\n+/).filter(Boolean).map(t => `<p>${esc(t)}</p>`).join("");
+  const kps = (ch.keyPoints || []).map(k => `<li>${esc(k)}</li>`).join("");
+  const isLast = idx >= p.chapters.length - 1;
+  body.innerHTML = `<h2>${esc(ch.title)}</h2>${paras}
+    ${kps ? `<div class="keypoints"><h5>Kernpunkte</h5><ul>${kps}</ul></div>` : ""}
+    <button class="reader-done" id="reader-done-btn">${ch.done ? (isLast ? "✓ Abgeschlossen" : "Weiter zum naechsten Kapitel ›") : (isLast ? "✓ Kapitel abschliessen" : "✓ Abschliessen & weiter ›")}</button>`;
+  body.scrollTop = 0;
+  document.getElementById("reader-done-btn").onclick = () => {
+    ch.done = true;
+    savePaths();
+    if (!isLast) {
+      openChapter(p, idx + 1);
+    } else {
+      closeReader();
+      showToast("🏆 Pfad abgeschlossen!");
+    }
+  };
+}
+
+function closeReader() {
+  document.getElementById("reader").classList.remove("show");
+  if (filter === "__paths") buildFeed();
+}
+
 // ============ CUSTOM SOURCES (URL / ePub) ============
 let epubChapters = [];
 
@@ -1458,10 +2034,11 @@ function openPanel(card) {
   document.getElementById("panel-topic").textContent = card.title;
   const qq = document.getElementById("quickQ");
   qq.innerHTML = "";
-  card.quickQ.forEach(q => {
+  const allQ = ["📜 Ausfuehrliche Erklaerung"].concat(card.quickQ || []);
+  allQ.forEach(q => {
     const b = document.createElement("button");
     b.className = "qq"; b.textContent = q;
-    b.onclick = () => sendMessage(q);
+    b.onclick = () => sendMessage(q === "📜 Ausfuehrliche Erklaerung" ? "__DEEPDIVE__" : q);
     qq.appendChild(b);
   });
   const msgs = document.getElementById("msgs");
@@ -1486,13 +2063,19 @@ function addMsg(role, text, thinking) {
 
 async function sendMessage(presetText) {
   const inp = document.getElementById("chat-input");
-  const msg = (presetText !== undefined ? presetText : inp.value).trim();
+  let msg = (presetText !== undefined ? presetText : inp.value).trim();
   if (!msg || chatLoading) return;
   inp.value = "";
   chatLoading = true;
 
-  addMsg("user", msg);
-  chatHistory.push({ role: "user", content: msg });
+  // Special token: clean label in the bubble, full instruction to the model
+  let displayMsg = msg, modelMsg = msg;
+  if (msg === "__DEEPDIVE__") {
+    displayMsg = "📖 Ausfuehrliche Erklaerung";
+    modelMsg = "Gib mir bitte eine ausfuehrliche, gut strukturierte Erklaerung zu diesem Thema mit Hintergrund, Zusammenhaengen und einem anschaulichen Beispiel.";
+  }
+  addMsg("user", displayMsg);
+  chatHistory.push({ role: "user", content: modelMsg });
   const thinkingEl = addMsg("ai", "Denke nach...", true);
 
   const historyText = chatHistory.map(m => (m.role === "user" ? "Nutzer: " : "Tutor: ") + m.content).join("\n");
@@ -1503,10 +2086,10 @@ Kontext: "${panelCard.fact}"
 Bisheriger Dialog:
 ${historyText}
 
-Antworte als Tutor auf die letzte Nutzer-Frage: auf Deutsch, praezise, 2-4 Saetze, wecke Neugier. Antworte NUR mit deiner Tutor-Antwort, ohne Praefix.`;
+Antworte als Tutor auf die letzte Nutzer-Frage: auf Deutsch, praezise, normalerweise 2-4 Saetze. AUSNAHME: Bittet der Nutzer um eine ausfuehrliche Erklaerung, antworte gruendlich in 2-4 Absaetzen mit Hintergrund, Zusammenhaengen und einem anschaulichen Beispiel. Antworte NUR mit deiner Tutor-Antwort, ohne Praefix.`;
 
   try {
-    const reply = (await callAI(prompt, 800)).replace(/^Tutor:\s*/i, "").trim();
+    const reply = (await callAI(prompt, 1400)).replace(/^Tutor:\s*/i, "").trim();
     thinkingEl.textContent = reply || "Keine Antwort erhalten.";
     thinkingEl.classList.remove("thinking");
     chatHistory.push({ role: "assistant", content: reply });
@@ -1526,8 +2109,10 @@ renderAll();
 if (!workerUrl || !apiKey) {
   document.getElementById("setup").classList.add("show");
 } else {
-  // Fill the background buffer immediately — refresh & infinite scroll feel instant
+  // Fill the background buffer immediately and aggressively — refresh feels instant
   fillBuffer();
+  setTimeout(fillBuffer, 1500);
+  setTimeout(fillBuffer, 4000);
 }
 </script>
 </body>
